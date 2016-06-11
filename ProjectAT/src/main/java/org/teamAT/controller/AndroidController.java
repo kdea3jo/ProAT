@@ -36,8 +36,8 @@ public class AndroidController {
 		MemberVo_Android vo = new MemberVo_Android();
 		String aid = request.getParameter("id");
 		String apw = request.getParameter("pw");
-		vo.setId(aid);
-		vo.setPw(apw);
+		vo.setUserid(aid);
+		vo.setUserpw(apw);
 		
 		request.setAttribute("dataForAndroid", as.androidLogin(vo));
 		return "/android/android_result";

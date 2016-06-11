@@ -5,7 +5,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="org.teamAT.dao.AndroidDao"> <!--이 sql 문장과 매핑될 인터페이스의 완전한 경로-->
 	
 	<select id="androidLogin" resultType="org.teamAT.vo.MemberVo_Android">
-		select userid, userpw from MEMBER where userid=#{id}
+		select userid, userpw from MEMBER where userid=#{userid}
 	</select>
 	
 </mapper>

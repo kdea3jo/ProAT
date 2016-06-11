@@ -36,7 +36,7 @@ public class AndroidService{
 		
 		if(checkVo == null)
 			check = false;		
-		if(!passwordEncoder.matches(vo.getPw(), checkVo.getPw()))
+		else if(!passwordEncoder.matches(vo.getUserpw(), checkVo.getUserpw()))
             check = false;          		
 		
 		JSONObject res = new JSONObject();
