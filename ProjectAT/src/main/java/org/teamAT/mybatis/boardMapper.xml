@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.teamAT.dao.BoardDao">
+
+    <select id="getList" resultType="org.teamAT.vo.BoardVo">
+    	SELECT * FROM(
+		  SELECT TRUNC((RN-1)/10+1) AS page, CEIL(COUNT(*) OVER()/10) AS TotalPage,t2.* FROM(
+		    SELECT ROWNUM RN, t1.* FROM(
+		      SELECT NUM, LPAD('-', (level-1)*4,' ')|| TITLE AS TITLE, USERID, WDATE, CONTENT 
+		      FROM ${boardname} 
+		      START WITH REF=0 CONNECT BY PRIOR NUM=REF 
+		      ORDER SIBLINGS BY num DESC 
+		    )t1 <if test="search.keyword!=null">WHERE ${search.type} LIKE '%${search.keyword}%'</if> 
+		  )t2 
+		)WHERE page=#{page}
+    </select>
+    <select id="getContent" resultType="org.teamAT.vo.BoardVo">
+    	SELECT * FROM ${boardname} WHERE NUM=#{num}
+    </select>
+    <update id="updateHit">
+    	UPDATE ${boardname} SET HIT=#{hit} WHERE NUM=#{num}
+    </update>
+    
+    <insert id="insert">
+    	INSERT INTO ${boardname} VALUES (${boardname}num.NEXTVAL, #{board.userid} , #{board.title},#{board.content},SYSDATE, 0, #{board.ref})
+    </insert>
+    
+    <select id="getCurrentContent" resultType="org.teamAT.vo.BoardVo">
+    	SELECT * FROM ${boardname} 
+		WHERE NUM=(SELECT MAX(NUM) FROM ${boardname} WHERE USERID=#{userid})
+    </select>
+    
+    <update id="update">
+    	UPDATE ${boardname} SET TITLE=#{board.title},CONTENT=#{board.content} WHERE NUM=#{board.num}
+    </update>
+    
+    <delete id="delete">
+    	DELETE FROM ${boardname} WHERE num=#{num}
+    </delete>
+    
+    <insert id="commentInsert">
+    	INSERT INTO ${boardname}comment VALUES 
+    	( ${boardname}commentnum.NEXTVAL, #{comment.userid}, #{comment.content}, #{comment.boardnum}, SYSDATE)
+    </insert>
+    
+    <select id="commentList" resultType="org.teamAT.vo.CommentVo">
+	    SELECT * FROM(    
+		    SELECT TRUNC((RN-1)/5+1) AS page, CEIL(COUNT(*) OVER()/5) AS TotalPage,t2.* FROM(
+		      SELECT ROWNUM RN, t1.* FROM(
+		        SELECT * FROM ${boardname}COMMENT 
+		        WHERE BOARDNUM=#{num}
+		        ORDER BY NUM
+		      )t1
+		    )t2
+		)WHERE page=#{page}
+    </select>
+    
+ </mapper>

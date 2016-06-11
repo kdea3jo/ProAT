@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+	<!-- 페이지 템플릿(레이아웃)과 템플릿을 구성하는 각 부분을 모두 이름을 붙여 선언한다 -->
+	<definition name="template" template="/WEB-INF/views/template.jsp">
+		<put-attribute name="title" value="" />	
+		<put-attribute name="header" value="/WEB-INF/views/header.jsp" />
+		<put-attribute name="body" value="" />
+		<put-attribute name="footer" value="/WEB-INF/views/footer.jsp" />
+	</definition>
+	
+	<definition name="main" extends="template">
+		<put-attribute name="body" value="/WEB-INF/views/main.jsp" />
+	</definition>
+	
+	<definition name="/board/*/*" extends="template">
+		<put-attribute name="title" value="{1}/{2}"/> 
+		<put-attribute name="body" value="/WEB-INF/views/board/{2}.jsp" />
+	</definition>
+	
+	<definition name="/attendance/*" extends="template">
+		<put-attribute name="title" value="{1}"/> 
+		<put-attribute name="body" value="/WEB-INF/views/board/present.jsp" />
+	</definition>
+	
+	<definition name="/member/*" extends="template">
+		<put-attribute name="body" value="/WEB-INF/views/member/{1}.jsp" />
+	</definition>
+
+</tiles-definitions>

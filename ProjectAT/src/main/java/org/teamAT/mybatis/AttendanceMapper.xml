@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.teamAT.dao.AttendanceDao">
+
+	<select id="getAttendList" resultType="org.teamAT.vo.AttendanceVo">
+		select * from(
+		  SELECT UserID, ADATE, userin, userout, ATEXCEPTION, 
+		    CASE  WHEN (USERIN is null or USEROUT is null) THEN '결석'
+		          WHEN USERIN<![CDATA[>]]>0910 AND USEROUT<![CDATA[<]]>1820 THEN '결석'
+		          WHEN USERIN<![CDATA[>]]>0910 THEN '지각'
+		          WHEN USEROUT<![CDATA[<]]>1820 THEN '조퇴'
+		          else '출석' end AS STATUE FROM BEPRESENT 
+		)where userid=#{userid}
+	</select>
+
+</mapper>

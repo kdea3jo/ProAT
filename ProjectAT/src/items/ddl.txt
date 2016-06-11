@@ -1,0 +1,349 @@
+/* member */
+CREATE TABLE member (
+	userid VARCHAR(20) NOT NULL, /* id */
+	userpw VARCHAR(20) NOT NULL, /* password */
+	username VARCHAR(20) NOT NULL, /* name */
+	phone NUMBER(11) NOT NULL, /* phone */
+	birthday DATE NOT NULL, /* birthday */
+	hint VARCHAR(30) NOT NULL, /* hint */
+	emailcheck CHAR(1) NOT NULL, /* check */
+	educlass NUMBER, /* class */
+	grade VARCHAR(20) /* grade */
+);
+
+CREATE UNIQUE INDEX PK_member
+	ON member (
+		userid ASC
+	);
+
+ALTER TABLE member
+	ADD
+		CONSTRAINT PK_member
+		PRIMARY KEY (
+			userid
+		);
+
+/* notice */
+CREATE TABLE notice (
+	num NUMBER NOT NULL, /* num */
+	userid VARCHAR(20) NOT NULL, /* id */
+	title VARCHAR(50) NOT NULL, /* title */
+	content VARCHAR(4000) NOT NULL, /* content */
+	wdate DATE NOT NULL, /* wdate */
+	hit NUMBER NOT NULL, /* hit */
+	ref NUMBER NOT NULL /* ref */
+);
+
+CREATE UNIQUE INDEX PK_notice
+	ON notice (
+		num ASC
+	);
+
+ALTER TABLE notice
+	ADD
+		CONSTRAINT PK_notice
+		PRIMARY KEY (
+			num
+		);
+
+/* qna */
+CREATE TABLE qna (
+	num NUMBER NOT NULL, /* num */
+	userid VARCHAR(20) NOT NULL, /* id */
+	title VARCHAR(50) NOT NULL, /* title */
+	content VARCHAR(4000) NOT NULL, /* content */
+	wdate DATE NOT NULL, /* wdate */
+	hit NUMBER NOT NULL, /* hit */
+	ref NUMBER NOT NULL /* ref */
+);
+
+CREATE UNIQUE INDEX PK_qna
+	ON qna (
+		num ASC
+	);
+
+ALTER TABLE qna
+	ADD
+		CONSTRAINT PK_qna
+		PRIMARY KEY (
+			num
+		);
+
+/* jobinfo */
+CREATE TABLE jobinfo (
+	num NUMBER NOT NULL, /* num */
+	userid VARCHAR(20) NOT NULL, /* id */
+	title VARCHAR(50) NOT NULL, /* title */
+	content VARCHAR(4000) NOT NULL, /* content */
+	wdate DATE NOT NULL, /* wdate */
+	hit NUMBER NOT NULL, /* hit */
+	ref NUMBER NOT NULL /* ref */
+);
+
+CREATE UNIQUE INDEX PK_jobinfo
+	ON jobinfo (
+		num ASC
+	);
+
+ALTER TABLE jobinfo
+	ADD
+		CONSTRAINT PK_jobinfo
+		PRIMARY KEY (
+			num
+		);
+
+/* noticeComment */
+CREATE TABLE noticecomment (
+	num NUMBER NOT NULL, /* num */
+	userid VARCHAR(20) NOT NULL, /* id */
+	content VARCHAR(400) NOT NULL, /* content */
+	noticenum NUMBER NOT NULL /* noticenum */
+);
+
+CREATE UNIQUE INDEX PK_noticecomment
+	ON noticecomment (
+		num ASC
+	);
+
+ALTER TABLE noticecomment
+	ADD
+		CONSTRAINT PK_noticecomment
+		PRIMARY KEY (
+			num
+		);
+
+/* educlass */
+CREATE TABLE educlass (
+	num NUMBER NOT NULL, /* num */
+	classname VARCHAR(30) NOT NULL, /* name */
+	startdate DATE NOT NULL, /* startDate */
+	enddate DATE NOT NULL, /* endDate */
+	total NUMBER, /* total */
+	state char(1) NOT NULL /* state */
+);
+
+CREATE UNIQUE INDEX PK_educlass
+	ON educlass (
+		num ASC
+	);
+
+ALTER TABLE educlass
+	ADD
+		CONSTRAINT PK_educlass
+		PRIMARY KEY (
+			num
+		);
+
+/* attendance */
+CREATE TABLE bepresent (
+	num NUMBER NOT NULL, /* num */
+	userid VARCHAR(20) NOT NULL, /* id */
+	adate DATE NOT NULL, /* adate */
+	userin DATE, /* in */
+	userout DATE, /* out */
+	atexception NUMBER NOT NULL /* exception */
+);
+
+CREATE UNIQUE INDEX PK_bepresent
+	ON bepresent (
+		num ASC
+	);
+
+ALTER TABLE bepresent
+	ADD
+		CONSTRAINT PK_bepresent
+		PRIMARY KEY (
+			num
+		);
+
+/* qnaComment */
+CREATE TABLE qnacomment (
+	num NUMBER NOT NULL, /* num */
+	userid VARCHAR(20) NOT NULL, /* id */
+	content VARCHAR(400) NOT NULL, /* content */
+	qnanum NUMBER NOT NULL, /* qnanum */
+	wdate DATE NOT NULL /* wdate */
+);
+
+CREATE UNIQUE INDEX PK_qnacomment
+	ON qnacomment (
+		num ASC
+	);
+
+ALTER TABLE qnacomment
+	ADD
+		CONSTRAINT PK_qnacomment
+		PRIMARY KEY (
+			num
+		);
+
+/* jobinfoComment */
+CREATE TABLE jobinfocomment (
+	num NUMBER NOT NULL, /* num */
+	userid VARCHAR(20) NOT NULL, /* id */
+	content VARCHAR(400) NOT NULL, /* content */
+	jobinfonum NUMBER NOT NULL /* jobinfonum */
+);
+
+CREATE UNIQUE INDEX PK_jobinfocomment
+	ON jobinfocomment (
+		num ASC
+	);
+
+ALTER TABLE jobinfocomment
+	ADD
+		CONSTRAINT PK_jobinfocomment
+		PRIMARY KEY (
+			num
+		);
+
+/* applicant */
+CREATE TABLE applicant (
+	userid VARCHAR(20) NOT NULL, /* id */
+	num NUMBER NOT NULL, /* num */
+	adate DATE NOT NULL /* aDate */
+);
+
+CREATE UNIQUE INDEX PK_applicant
+	ON applicant (
+		userid ASC,
+		num ASC
+	);
+
+ALTER TABLE applicant
+	ADD
+		CONSTRAINT PK_applicant
+		PRIMARY KEY (
+			userid,
+			num
+		);
+
+ALTER TABLE member
+	ADD
+		CONSTRAINT FK_educlass_TO_member
+		FOREIGN KEY (
+			educlass
+		)
+		REFERENCES educlass (
+			num
+		);
+
+ALTER TABLE notice
+	ADD
+		CONSTRAINT FK_member_TO_notice
+		FOREIGN KEY (
+			userid
+		)
+		REFERENCES member (
+			userid
+		);
+
+ALTER TABLE qna
+	ADD
+		CONSTRAINT FK_member_TO_qna
+		FOREIGN KEY (
+			userid
+		)
+		REFERENCES member (
+			userid
+		);
+
+ALTER TABLE jobinfo
+	ADD
+		CONSTRAINT FK_member_TO_jobinfo
+		FOREIGN KEY (
+			userid
+		)
+		REFERENCES member (
+			userid
+		);
+
+ALTER TABLE noticecomment
+	ADD
+		CONSTRAINT FK_member_TO_noticecomment
+		FOREIGN KEY (
+			userid
+		)
+		REFERENCES member (
+			userid
+		);
+
+ALTER TABLE noticecomment
+	ADD
+		CONSTRAINT FK_notice_TO_noticecomment
+		FOREIGN KEY (
+			noticenum
+		)
+		REFERENCES notice (
+			num
+		);
+
+ALTER TABLE bepresent
+	ADD
+		CONSTRAINT FK_member_TO_bepresent
+		FOREIGN KEY (
+			userid
+		)
+		REFERENCES member (
+			userid
+		);
+
+ALTER TABLE qnacomment
+	ADD
+		CONSTRAINT FK_qna_TO_qnacomment
+		FOREIGN KEY (
+			qnanum
+		)
+		REFERENCES qna (
+			num
+		);
+
+ALTER TABLE qnacomment
+	ADD
+		CONSTRAINT FK_member_TO_qnacomment
+		FOREIGN KEY (
+			userid
+		)
+		REFERENCES member (
+			userid
+		);
+
+ALTER TABLE jobinfocomment
+	ADD
+		CONSTRAINT FK_member_TO_jobinfocomment
+		FOREIGN KEY (
+			userid
+		)
+		REFERENCES member (
+			userid
+		);
+
+ALTER TABLE jobinfocomment
+	ADD
+		CONSTRAINT FK_jobinfo_TO_jobinfocomment
+		FOREIGN KEY (
+			jobinfonum
+		)
+		REFERENCES jobinfo (
+			num
+		);
+
+ALTER TABLE applicant
+	ADD
+		CONSTRAINT FK_member_TO_applicant
+		FOREIGN KEY (
+			userid
+		)
+		REFERENCES member (
+			userid
+		);
+
+ALTER TABLE applicant
+	ADD
+		CONSTRAINT FK_educlass_TO_applicant
+		FOREIGN KEY (
+			num
+		)
+		REFERENCES educlass (
+			num
+		);
