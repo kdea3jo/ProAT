@@ -21,4 +21,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <update id="resetPassword">
     	update member set userpw=#{pw} where userid=#{id}
     </update>
+    <update id="resetMember" parameterType="org.teamAT.vo.MemberVo">
+    	update member set userpw=#{userpw}, phone=#{phone} where userid=#{userid}
+    </update>
 </mapper>

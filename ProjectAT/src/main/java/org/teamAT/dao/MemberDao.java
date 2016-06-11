@@ -11,4 +11,5 @@ public interface MemberDao {
 	public int setMember(MemberVo vo);
 	public String getPassword(String id);
 	public int resetPassword(@Param("id") String id,@Param("pw") String pw);
+	public int resetMember(MemberVo vo);
 }

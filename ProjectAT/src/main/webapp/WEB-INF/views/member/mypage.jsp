@@ -39,15 +39,14 @@ input{
 	function formcheck() {		
 		$.ajax({
 			type : "post",
-			url : "modifyform",
+			url : "checkpw",
 			data : {'pw':$('input[name=pw]').val()},
 			dataType : "json",
 			success : function(result) {
 				if(!result){
-					bootbox.alert("Hello world!", function() {
-						  Example.show("Hello world callback");
-						});
-					$('input[name=pw]').val('');
+					$('#result_box').text('입력 정보가 잘못되었습니다.');
+				}else{
+					location.href="modifyform";
 				}
 			},
 			complete : function(data) {
@@ -65,4 +64,7 @@ input{
 		<input type="password" class="input-block-level" name="pw" placeholder="">
 		<button class="btn btn-block btn-success" type="button" onclick="formcheck()">확인</button>
 	</form>
+</div>
+<div id="result_box">
+
 </div>

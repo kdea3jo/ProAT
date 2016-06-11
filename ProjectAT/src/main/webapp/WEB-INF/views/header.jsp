@@ -18,7 +18,7 @@
 		<div id="navbar" class="collapse navbar-collapse">
 			<ul class="nav navbar-nav">
 				<li><a href="/ProjectAT/board/notice/list">공지사항</a></li>
-				<li><a href="#about">강좌</a></li>
+				<li><a href="/ProjectAT/subject/list?state=1">강좌</a></li>
 				<li><a href="/ProjectAT/board/jobinfo/list">취업정보</a></li>
 				<li><a href="/ProjectAT/board/qna/list">Q&A</a></li>
 				<li><a href="/ProjectAT/attendence/list">출결현황</a></li>
@@ -32,6 +32,7 @@
 					</c:when>
 					<c:otherwise>
 						<li><a><strong>${sessionScope.name}</strong>님 반갑습니다.</a></li>
+						<li><a href="/ProjectAT/admin/studentView">관리자</a></li>
 						<li><a href="/ProjectAT/member/mypage">마이페이지</a></li>
 						<li><a href="/ProjectAT/logout">로그아웃</a></li>
 					</c:otherwise>		

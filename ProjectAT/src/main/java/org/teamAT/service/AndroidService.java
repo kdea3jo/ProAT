@@ -14,11 +14,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
 import org.teamAT.dao.AndroidDao;
 import org.teamAT.dao.MemberDao;
 import org.teamAT.vo.MemberVo;
 import org.teamAT.vo.MemberVo_Android;
 
+@Service
 public class AndroidService{
 
 	@Autowired

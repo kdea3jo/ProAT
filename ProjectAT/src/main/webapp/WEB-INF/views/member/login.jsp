@@ -44,7 +44,7 @@ input{
 
 <div class="container">
 	<form class="form-signin" action="<c:url value='/check'/>" method="post">
-		<h3 class="form-signin-heading">크기가 전부는 아니잖아요.</h3>
+		<h3 class="form-signin-heading">로그인</h3>
 		<input type="text" class="input-block-level" name="id" placeholder="이메일을 입력하세요.">
 		<input type="password" class="input-block-level" name="pw" placeholder="비밀번호를 입력하세요.">
 		<h6><a href="help" class="text-primary">로그인에 어려움이 있으신가요?</a></h6><br><br>

@@ -1,8 +1,9 @@
-<%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <script src="<c:url value="/resources/bootstrap/datepicker/js/bootstrap-datepicker.js"/>"></script>
-<link href='<c:url value="/resources/bootstrap/datepicker/css/datepicker3.css"/>' rel="stylesheet">
+<link href="<c:url value="/resources/bootstrap/datepicker/css/datepicker3.css"/>" rel="stylesheet">
 
 <style type="text/css">
 .form-join {
@@ -20,33 +21,24 @@
 }
 </style>
 <script type="text/javascript">
-	
-	$(document).ready(function() {
-		$('#wrtDtReg').datepicker({
-			format : "yyyy-mm-dd",
-			startView : 1,
-			orientation : "top auto",
-			keyboardNavigation : false,
-			forceParse : false,
-			autoclose : true,
-			todayHighlight : true
-		});
-		$('#datepicker .input-date').datepicker('setDate', 'today');
+
+	$(function init() {
+		$('input[name=userpw]').val('');
 	});
 </script>
 
 <div class="container">
 	<div class="row">
 
-		<form:form id="joinform" commandName="memberVo" cssClass="form-join" action="join">
+		<form:form id="joinform" commandName="memberVo" cssClass="form-join" action="modify">
 			<fieldset>
 				<div id="legend">
-					<legend>AT출결 관리 시스템과 함께 합니다.</legend>
+					<legend class="">회원 정보 수정</legend>
 				</div>
 				<div class="control-group">
 					<label class="control-label" for="userid">아이디</label>
 					<div class="controls">
-						<form:input path="userid" cssClass="form-control input-lg typeahead tt-query" placeholder="유효한 이메일을 입력하세요."/>
+						<form:input path="userid" cssClass="form-control input-lg typeahead tt-query" readOnly="true"/>
 						<form:errors path="userid" cssClass="text-danger"/>
 					</div>
 				</div>
@@ -54,7 +46,7 @@
 				<div class="control-group">
 					<label class="control-label" for="password">비밀번호</label>
 					<div class="controls">
-						<form:input type="password" path="userpw" cssClass="form-control input-lg typeahead tt-query" placeholder="비밀번호를 입력하세요."/>
+						<form:input type="password" path="userpw" cssClass="form-control input-lg typeahead tt-query" placeholder="비밀번호를 입력하세요." />
 						<form:errors path="userpw" cssClass="text-danger"/>
 						<input type="password" class="form-control input-lg typeahead tt-query" placeholder="비밀번호를 재입력하세요."/>
 					</div>
@@ -63,8 +55,7 @@
 				<div class="control-group">
 					<label class="control-label" for="username">이름</label>
 					<div class="controls">
-						<form:input path="username" cssClass="form-control input-lg typeahead tt-query" placeholder="실명을 입력하세요." />
-						<form:errors path="username" cssClass="text-danger"/>
+						<form:input path="username" cssClass="form-control input-lg typeahead tt-query" readOnly="true"/>
 					</div>
 				</div>
 
@@ -72,7 +63,6 @@
 					<label class="control-label" for="birthday">생년월일</label>
 					<div class="controls">
 						<form:input path="birthday" id="wrtDtReg" cssClass="form-control input-sm" placeholder="클릭하세요" readOnly="true"/>
-						<form:errors path="birthday" cssClass="text-danger"/>
 					</div>
 				</div>
 
@@ -87,7 +77,7 @@
 				<div class="control-group">
 					<!-- Button -->
 					<div class="controls">
-						<form:button class="btn btn-success" id="join" type="submit">가입하기</form:button>
+						<form:button class="btn btn-success" id="join" type="submit">완료</form:button>
 					</div>
 				</div>
 			</fieldset>

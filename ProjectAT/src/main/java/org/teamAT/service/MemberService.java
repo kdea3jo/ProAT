@@ -40,16 +40,20 @@ public class MemberService{
 	
 	public void join(MemberVo vo) {
 		MemberDao dao=sqlSessionTemplate.getMapper(MemberDao.class);
-		System.out.println(vo.getUserpw());
 		vo.setUserpw(passwordEncoder.encode(vo.getUserpw()));
 		vo.setGrade("member");
-		System.out.println("여기까진..");
 		dao.setMember(vo);
 	}
 	
-	public boolean checkPw(String pw, HttpServletRequest request){
+	public void modify(MemberVo vo) {
 		MemberDao dao=sqlSessionTemplate.getMapper(MemberDao.class);
-		String getPw=dao.getPassword((String)request.getSession().getAttribute("id"));
+		vo.setUserpw(passwordEncoder.encode(vo.getUserpw()));
+		dao.resetMember(vo);
+	}
+	
+	public boolean checkPw(String pw, String id){
+		MemberDao dao=sqlSessionTemplate.getMapper(MemberDao.class);
+		String getPw=dao.getPassword(id);
 		if(passwordEncoder.matches(pw, getPw)){
             return true;
         }   

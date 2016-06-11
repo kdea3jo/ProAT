@@ -78,8 +78,6 @@ public class MemberController {
 	@ResponseBody
 	@RequestMapping(value="searchid", method = RequestMethod.POST)
 	public MemberVo searchId(MemberVo vo) {
-		System.out.println("¾ÆÀÌµð ¼­Äª");
-		
 		return ms.getUserId(vo);
 	}
 	
@@ -91,14 +89,29 @@ public class MemberController {
 	@ResponseBody
 	@RequestMapping(value="searchpw", method = RequestMethod.POST)
 	public boolean searchPw(@RequestParam String id) {
-		System.out.println(id);
 		return ms.sendEmailToCreateNewPassword(id);
 	}
 
 	@ResponseBody
+	@RequestMapping(value="checkpw", method = RequestMethod.POST)
+	public boolean viewCheckPw(@RequestParam String pw, Principal principal) {
+		return ms.checkPw(pw,principal.getName());
+	}
+	
 	@RequestMapping("modifyform")
-	public boolean viewModifyForm(@RequestParam String pw, HttpServletRequest request) {
-		return ms.checkPw(pw, request);
+	public String viewModifyForm(Principal principal,Model model) {
+		MemberVo vo=ms.loadUserByUsername(principal.getName());
+		model.addAttribute(vo);
+		return "/member/modify";
+	}
+	
+	@RequestMapping(value = "modify", method = RequestMethod.POST)
+	public String modify(@Valid MemberVo memberVo, BindingResult result) {
+		if (result.hasErrors()) {
+			return "/member/modify";			
+		}
+		ms.modify(memberVo);
+		return "redirect:/main";
 	}
 
 	@RequestMapping(value = "join", method = RequestMethod.POST)

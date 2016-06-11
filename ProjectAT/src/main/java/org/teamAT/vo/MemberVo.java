@@ -22,15 +22,24 @@ public class MemberVo {
 	@NotEmpty
 	private String username;
 	
-	@NotNull
-	private int phone;
+	@NotEmpty
+	private String phone;
 	
 	@NotNull
 	private Date birthday;
 	
-	private int educlass;
+	private String educlass;
+	
 	private String grade;
 	
+	private Date applicantDate;
+	
+	public Date getApplicantDate() {
+		return applicantDate;
+	}
+	public void setApplicantDate(Date applicantDate) {
+		this.applicantDate = applicantDate;
+	}
 	public String getUserid() {
 		return userid;
 	}
@@ -49,10 +58,10 @@ public class MemberVo {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	public int getPhone() {
+	public String getPhone() {
 		return phone;
 	}
-	public void setPhone(int phone) {
+	public void setPhone(String phone) {
 		this.phone = phone;
 	}
 	public Date getBirthday() {
@@ -61,10 +70,10 @@ public class MemberVo {
 	public void setBirthday(Date birthday) {
 		this.birthday = birthday;
 	}
-	public int getEduclass() {
+	public String getEduclass() {
 		return educlass;
 	}
-	public void setEduclass(int educlass) {
+	public void setEduclass(String educlass) {
 		this.educlass = educlass;
 	}
 	public String getGrade() {

@@ -28,5 +28,15 @@
 	<definition name="/member/*" extends="template">
 		<put-attribute name="body" value="/WEB-INF/views/member/{1}.jsp" />
 	</definition>
+	
+	<definition name="/subject/*" extends="template">
+		<put-attribute name="body" value="/WEB-INF/views/subject/{1}.jsp" />
+	</definition>
+	
+	<definition name="/admin/*" extends="template">
+		<put-attribute name="body" value="/WEB-INF/views/admin/{1}.jsp" />
+	</definition>
+	
+
 
 </tiles-definitions>
