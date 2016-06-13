@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <script src="https://code.jquery.com/jquery-2.2.2.min.js"></script>
 	<script type="text/javascript">
@@ -49,15 +50,20 @@
 				<td class="num col-xs-1 text-center">${items.num}</td>
 				<td class="title col-xs-6"><a
 					href="../${requestScope.boardname}/read?num=${items.num}">${items.title}</a></td>
-				<td class="userid col-xs-2 text-center">${items.userid}</td>
+				<td class="userid col-xs-2 text-center">${items.username}</td>
 				<td class="wDate col-xs-3 text-center">${items.wDate}</td>
 			</tr>
 		</c:forEach>
 
 	</table>
-
 	<div class="btnArea">
-		<button id="writeBtn" class="next btn btn-primary" type="button">글쓰기</button>
+	<c:choose>
+		<c:when test="${requestScope.boardname=='notice'}">
+			<sec:authorize access="hasAuthority('admin')">
+				<button id="writeBtn" class="next btn btn-primary" type="button">글쓰기</button>
+			</sec:authorize>
+		</c:when>
+	</c:choose>
 	</div>
 
 	<!-- pagination -->

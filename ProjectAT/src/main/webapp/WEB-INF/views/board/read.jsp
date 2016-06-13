@@ -1,10 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <script src="https://code.jquery.com/jquery-2.2.2.min.js"></script>
 <script type="text/javascript">
 $(function() {
+	$(".commentList:odd").css("background-color","#eee");
 	/* 목록 버튼 */
 	$("#backtolist").on("click", function() {
 		location.href = "list";
@@ -37,30 +38,40 @@ $(function() {
 });
 </script>
 <style>
-	.writeFormArea th,.writeFormArea td{ border: solid 1px;}
+	.writeFormArea table {width: 100%}
+	.writeFormArea th { border: gray solid 1px;padding: 3px;text-align: center;background-color: #eee;}
+	.writeFormArea td { border: gray solid 1px;padding: 3px;text-align: center;}
+	.writeFormArea th, .writeFormArea td { border-right: none;border-left: none;} 
+	
+	#realtitle { font-size: 30px; font-weight: bold;padding: 30px; border-bottom: none;}
+	#realcontent { font-size: 15px; padding:30px 10px 50px 10px;border-bottom: none;border-top: none;}
+	
+	.commentList {padding: 10px; list-style: none;}
+	
 </style>
 <div class="writeFormArea">
-	<h1>글읽기</h1>
+	<h1 class="sr-only">글읽기</h1>
 	<table>
 		<tr>
-			<th><label for="userid" >작성자</label></th><td><span id="userid">${requestScope.content.userid}</span></td>
-			<th><label for="wDate" >작성일</label></th><td><span id="wDate">${requestScope.content.wDate}</span></td>
 			<th><label for="num" >글번호</label></th><td><span id="num">${requestScope.content.num}</span></td>
+			<th><label for="userid" >작성자</label></th><td><span id="userid">${requestScope.content.username}</span></td>
+			<th><label for="wDate" >작성일</label></th><td><span id="wDate"></span>${requestScope.content.wDate}</td>
 			<th><label for="hit" >조회수</label></th><td><span id="hit">${requestScope.content.hit}</span></td>
 		</tr>
-		
-		
+		<tr>
+			<td id="realtitle" colspan="8" style="text-align: left"><label for="title" class="sr-only">제목</label>${requestScope.content.title}</td>
+		</tr>
+		<tr>
+			<td id="realcontent" colspan="8" style="text-align: left"><label for="content" class="sr-only">내용</label>${requestScope.content.content}</td>
+		</tr>
 	</table>
 	
-	<div class="form-group">
-		<label for="title">제목</label> ${requestScope.content.title}
-	</div>
-	<div class="form-group">
-		<label for="content">내용</label> ${requestScope.content.content}
-	</div>
-	<div class="btnArea">
-		<button id="update" type="button" class="btn btn-success">수정</button>
-		<button id="delete" type="button" class="btn btn-success">삭제</button>
+	<div class="btnArea" style="border-bottom: gray solid 1px;padding-bottom: 10px;">
+		<c:choose>
+			<button id="update" type="button" class="btn btn-success">수정</button>
+			<button id="delete" type="button" class="btn btn-success">삭제</button>
+		</c:choose>
+		
 		<button id="backtolist" type="button" class="btn btn-success">목록</button>
 	</div>
 
@@ -68,8 +79,8 @@ $(function() {
 	<div class="commentArea">
 		<ul>
 			<c:forEach var="items" items="${requestScope.commentList}" varStatus="status">
-				<li>
-					<div>${items.userid} &nbsp; ${items.wdate}</div>
+				<li class="commentList">
+					<div>${items.userid} &nbsp; <fmt:formatDate value='${items.wdate}' pattern='yyyy-MM-dd h:mm'/></div>
 					<div>${items.content}</div>
 				</li>
 			</c:forEach>
@@ -133,7 +144,7 @@ $(function() {
 		</div>
 	<form id="commentForm" action="comment" method="post">
 			<label for="commentUserid" >작성자</label>
-			<span id="commentUserid"><input name="userid" type="text" class="sr-only" value="<sec:authentication property="principal"/>"></input><sec:authentication property="principal"/></span><br>
+			<span id="commentUserid"><input name="userid" type="text" class="sr-only" value="${sessionScope.name}"></input>${sessionScope.name}</span><br>
 			<label for="commentContent" class="sr-only">내용</label>
 			<textarea id="commentContent" name="content" class="form-control" rows="3"></textarea>
 			<input name="boardnum" value="${requestScope.content.num}" class="sr-only">
