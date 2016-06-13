@@ -6,7 +6,6 @@ import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMessage.RecipientType;
-import javax.servlet.http.HttpServletRequest;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -100,5 +99,12 @@ public class MemberService{
 		    }
 		}
 		return buf.toString();
+	}
+
+	public int leaveMember(String id) {
+		MemberDao dao=sqlSessionTemplate.getMapper(MemberDao.class);	
+		dao.backupRemoveMember(id); /*탈퇴전 사용자 작성 글을 백업*/
+		int result=dao.removeMember(id);
+		return result==1 ? 1:2;
 	}
 }

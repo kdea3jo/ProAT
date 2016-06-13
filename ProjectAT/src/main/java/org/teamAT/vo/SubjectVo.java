@@ -23,7 +23,7 @@ public class SubjectVo {
 	private int total;
 	@NotEmpty
 	private String content;
-	private int totalDate;
+	private Date adate;
 	
 	public int getNum() {
 		return num;
@@ -73,11 +73,10 @@ public class SubjectVo {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public int getTotalDate() {
-		return totalDate;
+	public Date getAdate() {
+		return adate;
 	}
-	public void setTotalDate(int totalDate) {
-		this.totalDate = totalDate;
+	public void setAdate(Date adate) {
+		this.adate = adate;
 	}
-	
 }

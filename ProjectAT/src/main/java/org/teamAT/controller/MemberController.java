@@ -14,6 +14,8 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -60,11 +62,16 @@ public class MemberController {
 		return "redirect:/main";
 	}
 
+	@RequestMapping("check_pw")
+	public String viewCheckPassword(){
+		return "/member/check_pw";
+	}
+	
 	@RequestMapping("mypage")
-	public String viewMypage() {
+	public String viewMypage(){
 		return "/member/mypage";
 	}
-		
+	
 	@RequestMapping("help")
 	public String viewHelp() {
 		return "/member/help";
@@ -94,12 +101,19 @@ public class MemberController {
 
 	@ResponseBody
 	@RequestMapping(value="checkpw", method = RequestMethod.POST)
-	public boolean viewCheckPw(@RequestParam String pw, Principal principal) {
-		return ms.checkPw(pw,principal.getName());
+	public boolean viewCheckPw(@RequestParam String pw, Principal principal, HttpServletRequest request) {
+		if(ms.checkPw(pw,principal.getName())){
+			request.getSession().setAttribute("passwordcheck", true);
+			return true;
+		}
+		return false;
 	}
 	
 	@RequestMapping("modifyform")
-	public String viewModifyForm(Principal principal,Model model) {
+	public String viewModifyForm(Principal principal,HttpServletRequest request,Model model) {
+		/*	주소창 url을 입력하여 직접 접근하는 것을 막기 위해 password 인증에 성공했을시 session 생성 */
+		if(request.getSession().getAttribute("passwordcheck")==null) return "redirect:check_pw";
+		request.getSession().removeAttribute("passwordcheck");
 		MemberVo vo=ms.loadUserByUsername(principal.getName());
 		model.addAttribute(vo);
 		return "/member/modify";
@@ -113,7 +127,7 @@ public class MemberController {
 		ms.modify(memberVo);
 		return "redirect:/main";
 	}
-
+	
 	@RequestMapping(value = "join", method = RequestMethod.POST)
 	public String join(@Valid MemberVo memberVo, BindingResult result) {
 		if (result.hasErrors()) {
@@ -122,5 +136,10 @@ public class MemberController {
 		ms.join(memberVo);
 		return "redirect:loginform";
 	}
-
+	
+	@ResponseBody
+	@RequestMapping(value = "leavemember", method = RequestMethod.POST)
+	public int leaveMember(Principal principal) {
+		return ms.leaveMember(principal.getName());
+	}
 }

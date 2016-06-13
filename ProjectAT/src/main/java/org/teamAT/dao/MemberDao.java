@@ -12,4 +12,6 @@ public interface MemberDao {
 	public String getPassword(String id);
 	public int resetPassword(@Param("id") String id,@Param("pw") String pw);
 	public int resetMember(MemberVo vo);
+	public int backupRemoveMember(String id);
+	public int removeMember(String id);
 }

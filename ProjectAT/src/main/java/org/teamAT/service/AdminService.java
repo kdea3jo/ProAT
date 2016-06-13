@@ -26,10 +26,14 @@ public class AdminService {
 		return list;
 	}
 	
-	public List<MemberVo> setStudent(String id){
+	public void setStudent(String id){
 		StudentDao dao=sqlSessionTemplate.getMapper(StudentDao.class);
 		dao.setStudent(id);
 		dao.removeApplicant(id);
-		return null;
+	}
+	
+	public void removeApplicant(String id){
+		StudentDao dao=sqlSessionTemplate.getMapper(StudentDao.class);
+		dao.removeApplicant(id);
 	}
 }

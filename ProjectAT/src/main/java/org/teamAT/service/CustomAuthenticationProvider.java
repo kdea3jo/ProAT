@@ -39,11 +39,13 @@ public class CustomAuthenticationProvider implements AuthenticationProvider{
         SimpleGrantedAuthority auth=new SimpleGrantedAuthority(vo.getGrade());
         List<GrantedAuthority> list=new ArrayList();
         list.add(auth);
-        
+      
         if(!passwordEncoder.matches(pw, vo.getUserpw())){
             throw new BadCredentialsException("패스워드가 일치하지 않습니다.");
         }
-        return new UsernamePasswordAuthenticationToken(vo.getUserid(), null, list);
+        User user=new User(id, pw, list);
+       
+        return new UsernamePasswordAuthenticationToken(user.getUsername(), null, user.getAuthorities());
 	}
 }
 

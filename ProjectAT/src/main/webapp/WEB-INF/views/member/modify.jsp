@@ -24,7 +24,29 @@
 
 	$(function init() {
 		$('input[name=userpw]').val('');
+		
+		$('#out').on('click',function(){
+			
+			if(!confirm('정말로 탈퇴를 진행하시겠습니까?')) return;
+			
+			$.ajax({
+		        type:"post",
+		        url:"leavemember",
+		        dataType:"json",
+		        success:function(result){
+		        	if(result==1){
+		        		alert('탈퇴되었습니다. 잘먹고 잘살아라');
+		        		location.href="/ProjectAT/logout";
+		        	}else alert('탈퇴에 실패함..');
+		        },
+		        complete:function(data){            
+		        },
+		        error:function(xhr,status,error){
+		        }
+			});
+		});
 	});
+	
 </script>
 
 <div class="container">
@@ -78,6 +100,7 @@
 					<!-- Button -->
 					<div class="controls">
 						<form:button class="btn btn-success" id="join" type="submit">완료</form:button>
+						<form:button class="btn btn-success" id="out" type="button">탈퇴</form:button>
 					</div>
 				</div>
 			</fieldset>

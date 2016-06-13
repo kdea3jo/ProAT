@@ -34,4 +34,9 @@ public class AdminController {
 		as.setStudent(id);
 		return "redirect:applicantView";
 	}
+	@RequestMapping("removeapplicant")
+	public String removeApplicant(@RequestParam String id) {
+		as.removeApplicant(id);
+		return "redirect:applicantView";
+	}
 }

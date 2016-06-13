@@ -67,14 +67,11 @@ $(function() {
 	</table>
 	
 	<div class="btnArea" style="border-bottom: gray solid 1px;padding-bottom: 10px;">
-		<c:choose>
 			<button id="update" type="button" class="btn btn-success">수정</button>
 			<button id="delete" type="button" class="btn btn-success">삭제</button>
-		</c:choose>
-		
 		<button id="backtolist" type="button" class="btn btn-success">목록</button>
 	</div>
-
+	
 	<h3>댓글</h3>
 	<div class="commentArea">
 		<ul>

@@ -10,12 +10,17 @@ td,th{border:1px solid black}
 
 jQuery(document).ready(function($) {
     $("#yes").on('click',function(){
-    	if(!confirm('수강신청을 수락하시겠습니까?')) return;
-    	location.href="addstudent?id="+$('#userid').text();
+    	var name=$(this).parent().siblings('.username').text();
+    	var id=$(this).parent().siblings('.userid').text();
+    	if(!confirm('['+name+']'+'님의 수강신청을 수락하시겠습니까?')) return;
+    	location.href="addstudent?id="+id;
     });
     
     $("#no").on('click',function(){
-    	confirm('수강신청을 거절하시겠습니까?');
+    	var name=$(this).parent().siblings('.username').text();
+    	var id=$(this).parent().siblings('.userid').text();
+    	if(!confirm('['+name+']'+'님의 수강신청을 거절하시겠습니까?')) return;
+    	location.href="removeapplicant?id="+id;
     });   
 });
 
@@ -29,9 +34,9 @@ jQuery(document).ready(function($) {
 		<td>${status.count}</td>
 		<td>${applicant.educlass}</td>
 		<td><fmt:formatDate value='${applicant.applicantDate}' pattern='yyyy-MM-dd'/></td>
-		<td>${applicant.username}</td>
+		<td class="username">${applicant.username}</td>
 		<td><fmt:formatDate value='${applicant.birthday}' pattern='yyyy-MM-dd'/></td>
-		<td id="userid">${applicant.userid}</td>
+		<td class="userid">${applicant.userid}</td>
 		<td>${applicant.phone}</td>
 		<td><button type="button" id="yes">수락</button></td>
 		<td><button type="button" id="no">거절</button></td>

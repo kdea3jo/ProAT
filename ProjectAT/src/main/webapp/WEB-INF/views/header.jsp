@@ -32,8 +32,10 @@
 					</c:when>
 					<c:otherwise>
 						<li><a><strong>${sessionScope.name}</strong>님 반갑습니다.</a></li>
-						<li><a href="/ProjectAT/admin/studentView">관리자</a></li>
-						<li><a href="/ProjectAT/member/mypage">마이페이지</a></li>
+						<sec:authorize access="hasAuthority('admin')">
+							<li><a href="/ProjectAT/admin/studentView">관리자</a></li>
+						</sec:authorize>
+						<li><a href="/ProjectAT/member/check_pw">마이페이지</a></li>
 						<li><a href="/ProjectAT/logout">로그아웃</a></li>
 					</c:otherwise>		
 				</c:choose>

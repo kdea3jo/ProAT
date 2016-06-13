@@ -24,4 +24,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <update id="resetMember" parameterType="org.teamAT.vo.MemberVo">
     	update member set userpw=#{userpw}, phone=#{phone} where userid=#{userid}
     </update>
+    <update id="backupRemoveMember">
+    	update qna set userid='admin_out@projectat.co.kr' where userid=#{id}
+    </update>
+    <delete id="removeMember">
+    	delete from member where userid=#{id}
+    </delete>
 </mapper>

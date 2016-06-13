@@ -4,9 +4,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.teamAT.dao.SubjectDao"> <!--이 sql 문장과 매핑될 인터페이스의 완전한 경로-->
 	<insert id="setSubject" parameterType="org.teamAT.vo.SubjectVo">
-		insert into educlass values(educlass_num_seq.nextval,#{classname},#{startdate},#{enddate},#{total},1,#{starttime},#{endtime},#{content})
+		insert into educlass values(EDUCLASS_NUM_SEQ.nextval,#{classname},#{startdate},#{enddate},#{total},1,#{starttime},#{endtime},#{content})
 	</insert>
 	<select id="getSubjectList" resultType="org.teamAT.vo.SubjectVo">
 		select * from educlass where state=#{state}
+	</select>
+	<select id="getApplicantMember" resultType="int">
+		select count(*) from applicant where userid=#{id}
+	</select>
+	<insert id="applySubject">
+		insert into applicant values(#{id},#{num},sysdate) 
+	</insert>
+	<select id="getMyApplySubject" resultType="org.teamAT.vo.SubjectVo">
+		select * from applicant a inner join educlass e on a.num=e.num where a.userid=#{id}
 	</select>
 </mapper>
