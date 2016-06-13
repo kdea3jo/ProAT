@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <script src='<c:url value="/resources/fullcalendar/lang/ko.js"></c:url>'></script>
 <script src='<c:url value="/resources/fullcalendar/lib/moment.min.js"></c:url>'></script>
 <script src='<c:url value="/resources/fullcalendar/fullcalendar.min.js"></c:url>'></script>
@@ -30,9 +31,12 @@
 					</c:choose>
 				},
 			</c:forEach>
-			]  
+			]   
 		});
-		graph(60,7,120); // 출석일수, 결석일수, 총일수
+		var totalDate = ${requestScope.subjectInfo.totalDate};
+		var attendDate = ${requestScope.attendDate};
+		var absenceDate = ${requestScope.absenceDate};
+		graph(attendDate,absenceDate,totalDate); // 출석일수, 결석일수, 총일수
 		
 	});
 	
@@ -93,11 +97,11 @@
 	<table class="table table-bordered" style="font-size: 15px">
 		<tr>
 			<th id="training_organ">훈련 기관명</th><td headers="training_organ">한국디지털기업협회</td>
-			<th id="training_term">훈련 기간</th><td headers="training_term">160105~160704</td>
+			<th id="training_term">훈련 기간</th><td headers="training_term"><fmt:formatDate value='${requestScope.subjectInfo.startdate}' pattern='yyyy-MM-dd'/>~<fmt:formatDate value='${requestScope.subjectInfo.enddate}' pattern='yyyy-MM-dd'/></td>
 		</tr>
 		<tr>
-			<th id="training_title">훈련 과정명</th><td headers="training_title">전자정부표준프레임워크기반 자바개발자과정</td>
-			<th id="attendance_term">출석 기간</th><td headers="attendance_term">160105~160704</td>
+			<th id="training_title">훈련 과정명</th><td headers="training_title">${requestScope.subjectInfo.classname}</td>
+			<th id="attendance_term">출석 기간</th><td headers="attendance_term"><fmt:formatDate value='${requestScope.subjectInfo.startdate}' pattern='yyyy-MM-dd'/>~<fmt:formatDate value='${requestScope.subjectInfo.enddate}' pattern='yyyy-MM-dd'/></td>
 		</tr>
 	</table>
 </div>	
@@ -107,5 +111,6 @@
 	<p class="graph02 graph"><em></em><strong>결석</strong></p>
 	<p class="graph03 graph"><em></em><strong></strong></p>
 </div>
+	<p>${requestScope.subjectInfo.totalDate} 중${requestScope.attendDate}일 출석, ${requestScope.absenceDate}일 결석  </p>
 <h4>출결 현황 달력</h4><br>
 <div id='calendar' ></div>

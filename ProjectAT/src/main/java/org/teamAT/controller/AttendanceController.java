@@ -19,6 +19,7 @@ public class AttendanceController {
 	
 	@RequestMapping(value="list")
 	public String getlist(Principal principal, HttpServletRequest request){
+		service.getSubjectInfo(principal.getName(), request);
 		service.getAttendList(principal.getName(), request);
 		return "/attendance/list";
 	}

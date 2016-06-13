@@ -36,16 +36,22 @@ $(function() {
 	});
 });
 </script>
+<style>
+	.writeFormArea th,.writeFormArea td{ border: solid 1px;}
+</style>
 <div class="writeFormArea">
 	<h1>글읽기</h1>
-	<label for="userid" >작성자</label>
-	<span id="userid">${requestScope.content.userid}</span>
-	<label for="wDate" >작성일</label>
-	<span id="wDate">${requestScope.content.wDate}</span>
-	<label for="num" >글번호</label>
-	<span id="num">${requestScope.content.num}</span>
-	<label for="hit" >조회수</label>
-	<span id="hit">${requestScope.content.hit}</span>
+	<table>
+		<tr>
+			<th><label for="userid" >작성자</label></th><td><span id="userid">${requestScope.content.userid}</span></td>
+			<th><label for="wDate" >작성일</label></th><td><span id="wDate">${requestScope.content.wDate}</span></td>
+			<th><label for="num" >글번호</label></th><td><span id="num">${requestScope.content.num}</span></td>
+			<th><label for="hit" >조회수</label></th><td><span id="hit">${requestScope.content.hit}</span></td>
+		</tr>
+		
+		
+	</table>
+	
 	<div class="form-group">
 		<label for="title">제목</label> ${requestScope.content.title}
 	</div>

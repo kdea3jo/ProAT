@@ -8,4 +8,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select userid, userpw from MEMBER where userid=#{userid}
 	</select>
 	
+	<select id="androidCheckToday" resultType="org.teamAT.vo.BepresentVo_Android">
+		select ${checkType} as "checkTime" from BEPRESENT where userid=#{userid} and TO_CHAR(ADATE,'YYYYMMDD')=#{today}
+	</select>
+	
+	<update id="androidCheckTimeUpdate">
+		update BEPRESENT set ${checkType}=#{checkTime} where userid=#{userid} and TO_CHAR(ADATE,'YYYYMMDD')=#{today}
+	</update>
+	
 </mapper>

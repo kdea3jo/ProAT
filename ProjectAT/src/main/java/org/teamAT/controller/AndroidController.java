@@ -1,20 +1,14 @@
 package org.teamAT.controller;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.teamAT.service.AndroidService;
+import org.teamAT.vo.BepresentVo_Android;
 import org.teamAT.vo.MemberVo_Android;
 
 @Controller
@@ -24,15 +18,9 @@ public class AndroidController {
 
 	@Autowired
 	private AndroidService as;
-	
-	@InitBinder /*form에서 date 타입을 맵핑할 때 필요한 메서드*/
-    protected void initBinder(WebDataBinder binder){
-        DateFormat  dateFormat = new SimpleDateFormat("yy-MM-dd");
-        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat,true));
-    }
-	
+		
 	@RequestMapping(value="login", method = RequestMethod.GET)
-	public String getList(HttpServletRequest request){
+	public String getLogin(HttpServletRequest request){
 		MemberVo_Android vo = new MemberVo_Android();
 		String aid = request.getParameter("id");
 		String apw = request.getParameter("pw");
@@ -43,6 +31,23 @@ public class AndroidController {
 		return "/android/android_result";
 	}
 	
+	@RequestMapping(value="bepresent", method = RequestMethod.GET)
+	public String getBepresent(HttpServletRequest request){
+		
+		String aid = request.getParameter("userid");
+		String checkType = request.getParameter("checkType");
+		String checkTime = request.getParameter("checkTime");
+		String today = request.getParameter("today");
+		
+		BepresentVo_Android vo = new BepresentVo_Android();
+		vo.setUserid(aid);
+		vo.setCheckType(checkType);
+		vo.setCheckTime(Integer.parseInt(checkTime));
+		vo.setToday(today);
+		
+		request.setAttribute("dataForAndroid", as.androidCheckBepresnet(vo));
+		return "/android/android_result";
+	}
 	
 
 }
