@@ -2,6 +2,8 @@ package org.teamAT.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -51,5 +53,13 @@ public class SubjectService {
 	public void cancelSubject(String id) {
 		StudentDao dao=sqlSessionTemplate.getMapper(StudentDao.class);
 		dao.removeApplicant(id);
+	}
+
+	public void getSubject(int num, HttpServletRequest request) {
+		SubjectDao dao=sqlSessionTemplate.getMapper(SubjectDao.class);	
+		SubjectVo vo=dao.getSubject(num);
+		int count=dao.getApplicantCount(num);
+		request.setAttribute("subjectVo", vo);
+		request.setAttribute("count", count);
 	}
 }

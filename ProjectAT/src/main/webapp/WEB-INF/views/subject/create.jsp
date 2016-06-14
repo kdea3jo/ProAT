@@ -5,9 +5,16 @@
 <script src="<c:url value="/resources/bootstrap/datepicker/js/bootstrap-datepicker.js"/>"></script>
 <link href='<c:url value="/resources/bootstrap/datepicker/css/datepicker3.css"/>' rel="stylesheet">
 <style type="text/css">
-#wrap_subject{width:700px}
-.wraper div{border:1px solid black}
-input{width: 100%}
+
+.writeFormArea table {width: 100%}
+.writeFormArea th { padding: 10px; text-align: center; background-color: #eee;}
+.writeFormArea td { padding: 3px; text-align: center;}
+
+#subject_title td{border-top: none; padding-bottom: 10px}
+#subject_content td{padding: 20px; height: 300px}
+.writeFormArea th, .writeFormArea td {border-right: none;border-left: none;} 
+.errArea td{border:none}
+#contentArea{height:100%}
 </style>
 <script type="text/javascript">
 	
@@ -31,75 +38,79 @@ input{width: 100%}
 	});
 </script>
 
-<form:form id="subjectform" commandName="subjectVo" action="create">
-<div class="container" id="wrap_subject">
-	<div class="control-group">
-		<div class="col-md-6">
-			<span>강좌명</span>
-			<form:input path="classname"/>
-			<form:errors path="classname" cssClass="text-danger"/>
-		</div>
-		<div class="col-md-6">
-			<span>인원</span>
-			<form:input path="total" type="number"/>
-			<form:errors path="total" cssClass="text-danger"/>
-		</div>
-	</div>
-	<div class="control-group">
-		<div class="col-md-6">
-			<span>시작일</span>
-			<form:input path="startdate" cssClass="dateselect input-sm" placeholder="클릭하세요" readOnly="true"/>
-			<form:errors path="startdate" cssClass="text-danger"/>
-		</div>
-		<div class="col-md-6">
-			<span>종료일</span>
-			<form:input path="enddate" cssClass="dateselect input-sm" placeholder="클릭하세요" readOnly="true"/>
-			<form:errors path="enddate" cssClass="text-danger"/>
-		</div>
-	</div>
-	<div class="control-group">
-		<div class="col-md-6">
-			<span>시작 시간</span>
-			<form:input path="starttime" type="time" placeholder="클릭하세요"/>
-			<form:errors path="starttime" cssClass="text-danger"/>
-		</div>
-		<div class="col-md-6">
-			<span>종료 시간</span>
-			<form:input path="endtime" type="time" placeholder="클릭하세요"/>
-			<form:errors path="endtime" cssClass="text-danger"/>
-		</div>
-	</div>
-	<div class="control-group">
-		<div class="col-md-12">
-			<form:textarea path="content"/>
-			<form:errors path="content" cssClass="text-danger"/>
-		</div>
-	</div>
-	<div class="control-group">
-		<div class="col-md-12"><button type="submit" id="create">개설</button></div>
-	</div>
+<form:form commandName="subjectVo" action="create" method="post">
+<div class="writeFormArea">
+	<table>
+		<tr id="subject_title">
+			<td colspan="3">
+				<form:input path="classname" cssClass="form-control input-lg typeahead tt-query" placeholder="강좌명을 입력하세요."/>
+			</td>
+			<td>
+				<form:input path="total" type="number" cssClass="form-control input-lg typeahead tt-query" placeholder="수강 인원을 설정하세요." value=""/>
+			</td>
+		</tr>
+		<tr class="errArea">
+			<td colspan="3">
+				<form:errors path="classname" cssClass="text-danger"/>
+			</td>
+			<td>
+				<form:errors path="total" cssClass="text-danger"/>
+			</td>
+		</tr>
+		<tr>
+			<th>시작일</th>
+			<td>
+				<form:input path="startdate" cssClass="dateselect form-control input-sm" placeholder="클릭하세요" readOnly="true"/>
+			</td>
+			<th>종료일</th>
+			<td>
+				<form:input path="enddate" cssClass="dateselect form-control input-sm" placeholder="클릭하세요" readOnly="true"/>
+			</td>
+		</tr>
+		<tr class="errArea">
+			<td></td>
+			<td>
+				<form:errors path="startdate" cssClass="text-danger"/>
+			</td>
+			<td></td>
+			<td>
+				<form:errors path="enddate" cssClass="text-danger"/>
+			</td>
+		</tr>
+		<tr>
+			<th>강의 시작 시간</th>
+			<td>
+				<form:input path="starttime" type="time" cssClass="form-control input-sm" placeholder="클릭하세요"/>
+				<form:errors path="starttime" cssClass="text-danger"/>
+			</td>
+			<th>강의 종료 시간</th>
+			<td>
+				<form:input path="endtime" type="time" cssClass="form-control input-sm" placeholder="클릭하세요"/>
+				<form:errors path="endtime" cssClass="text-danger"/>
+			</td>
+		</tr>
+		<tr class="errArea">
+			<td></td>
+			<td>
+				<form:errors path="starttime" cssClass="text-danger"/>
+			</td>
+			<td></td>
+			<td>
+				<form:errors path="endtime" cssClass="text-danger"/>
+			</td>
+		</tr>
+		<tr id="subject_content">
+			<td colspan="4">
+				<form:textarea id="contentArea" path="contents" cssClass="form-control"/>
+				<form:errors path="contents" cssClass="text-danger"/>
+			</td>
+		</tr>
+	</table>
+	<button type="submit">개설</button>
+	<button type="button" onclick="location.href='list?state=1'">목록</button>
+	<sec:authorize access="hasAuthority('admin')">
+		<button type="button">수정</button>
+		<button type="button">삭제</button>
+	</sec:authorize>
 </div>
 </form:form>
-
-<%-- <div class="container" id="wrap_subject">
-	<div class="control-group">
-		<div class="col-md-6"><span>강좌명</span><input type="text" name="classname"></div>
-		<div class="col-md-6"><span>인원</span><input type="number" name="total"></div>
-	</div>
-	<div class="control-group">
-		<div class="col-md-6"><span>시작일</span><input type="text" class="dateselect input-sm" name="22" placeholder="클릭하세요" readOnly="true" /></div>
-		<div class="col-md-6"><span>종료일</span><input type="text" class="dateselect input-sm" name="22" placeholder="클릭하세요" readOnly="true" /></div>
-	</div>
-	<div class="control-group">
-		<div class="col-md-3">시작 시간</div><div class="col-md-3"><input type="time" name='starttime'/></div>
-		<div class="col-md-3">종료 시간</div><div class="col-md-3"><input type="time" name='endtime'/></div>
-	</div>
-	<div class="control-group">
-		<div class="col-md-12"><textarea></textarea></div>
-	</div>
-	<div class="control-group">
-		<div class="col-md-12"><button type="submit" id="create">개설</button></div>
-	</div>
-</div>
-
-</form> --%>

@@ -12,4 +12,6 @@ public interface SubjectDao {
 	public int getApplicantMember(String id);
 	public int applySubject(@Param("num") int num,@Param("id") String id);
 	public SubjectVo getMyApplySubject(String id);
+	public SubjectVo getSubject(int num);
+	public int getApplicantCount(int num);
 }

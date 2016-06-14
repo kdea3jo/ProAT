@@ -21,7 +21,7 @@
 				<li><a href="/ProjectAT/subject/list?state=1">강좌</a></li>
 				<li><a href="/ProjectAT/board/jobinfo/list">취업정보</a></li>
 				<li><a href="/ProjectAT/board/qna/list">Q&A</a></li>
-				<li><a href="/ProjectAT/attendence/list">출결현황</a></li>
+				<li><a href="/ProjectAT/attendance/list">출결현황</a></li>
 			</ul>
 			
 			<ul class="nav navbar-nav navbar-right">

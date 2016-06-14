@@ -44,6 +44,9 @@ public class SubjectController {
 	}
 	@RequestMapping(value="create", method=RequestMethod.POST)
 	private String createSubject(@Valid SubjectVo vo,BindingResult result){
+		if (result.hasErrors()) {
+			return "/subject/create";			
+		}
 		ss.setSubject(vo);
 		return "/subject/create";
 	}
@@ -62,6 +65,11 @@ public class SubjectController {
 	private String applySubject(Principal principal){
 		ss.cancelSubject(principal.getName());
 		return "redirect:list?state=1";
+	}
+	@RequestMapping("read")
+	private String viewDetailedSubject(@RequestParam int num, HttpServletRequest request){
+		ss.getSubject(num, request);
+		return "/subject/read";
 	}
 	@RequestMapping(value="mysubject")
 	private String viewMySubject(HttpServletRequest request,Principal principal){

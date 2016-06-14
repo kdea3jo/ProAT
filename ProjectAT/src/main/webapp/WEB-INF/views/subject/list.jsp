@@ -5,8 +5,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <style>
-table{border: 1px solid black}
-td,th{border:1px solid black}
 .clickable-row{cursor: pointer}
 </style>
 <script type="text/javascript">
@@ -39,28 +37,35 @@ $(document).ready(function(){
 });
 
 </script>
-<a href="list?state=1">진행중</a> <a href="list?state=0">종료</a>
-<table>
-<tr><th>번호</th><th>강좌명</th><th>시작일/종료일</th><th>모집인원</th>
-	<sec:authorize access="hasAuthority('member')">
-	<th>신청</th>
-	</sec:authorize>
-	</tr>
-<c:forEach items="${SubjectList}" var="subject" varStatus="status">
-	<tr class='clickable-row' data-href='#'>
-		<input class="classnum" type="hidden" value="${subject.num}"/>
-		<td>${status.count}</td>
-		<td class="classname">${subject.classname}</td>
-		<td><fmt:formatDate value='${subject.startdate}' pattern='yyyy-MM-dd'/>~<fmt:formatDate value='${subject.enddate}' pattern='yyyy-MM-dd'/></td>
-		<td>${subject.total}</td>
-		
-		<sec:authorize access="hasAuthority('member')">
-			<td><button type="button" class="apply_btn">신청</button></td>
-		</sec:authorize>
-		
-	</tr>
-</c:forEach>
-</table>
+<div class="tableArea">
+<a href="list?state=1">진행중</a> / <a href="list?state=0">종료</a>
+	<table class="table table-striped table-bordered table-hover">
+		<thead>
+			<tr>
+				<th class="col-xs-1 text-center">번호</th>
+				<th class="col-xs-4 text-center">강좌명</th>
+				<th class="col-xs-3 text-center">시작일/종료일</th>
+				<th class="col-xs-1 text-center">모집인원</th>
+				<sec:authorize access="hasAuthority('member')">
+					<th class="col-xs-1 text-center">신청</th>
+				</sec:authorize>
+				</tr>
+		</thead>
+	
+		<c:forEach items="${SubjectList}" var="subject" varStatus="status">
+			<tr class='clickable-row' onclick="location.href='read?num='+${subject.num}">
+				<input class="classnum" type="hidden" value="${subject.num}"/>
+				<td class="text-center">${status.count}</td>
+				<td class="classname">${subject.classname}</td>
+				<td class="text-center"><fmt:formatDate value='${subject.startdate}' pattern='yyyy-MM-dd'/>~<fmt:formatDate value='${subject.enddate}' pattern='yyyy-MM-dd'/></td>
+				<td class="text-center">${subject.total}</td>
+				<sec:authorize access="hasAuthority('member')">
+					<td><button type="button" class="apply_btn">신청</button></td>
+				</sec:authorize>
+			</tr>
+		</c:forEach>
+	</table>
+</div>
 <sec:authorize access="hasAuthority('admin')">
 	<button type="button" onclick="location.href='createform'">개설</button>
 </sec:authorize>

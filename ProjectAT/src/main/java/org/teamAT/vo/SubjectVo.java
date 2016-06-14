@@ -22,7 +22,8 @@ public class SubjectVo {
 	@NotNull
 	private int total;
 	@NotEmpty
-	private String content;
+	private String contents;
+	private int totalDate;
 	private Date adate;
 	
 	public int getNum() {
@@ -67,11 +68,11 @@ public class SubjectVo {
 	public void setTotal(int total) {
 		this.total = total;
 	}
-	public String getContent() {
-		return content;
+	public String getContents() {
+		return contents;
 	}
-	public void setContent(String content) {
-		this.content = content;
+	public void setContents(String contents) {
+		this.contents = contents;
 	}
 	public Date getAdate() {
 		return adate;
@@ -79,4 +80,11 @@ public class SubjectVo {
 	public void setAdate(Date adate) {
 		this.adate = adate;
 	}
+	public int getTotalDate() {
+		return totalDate;
+	}
+	public void setTotalDate(int totalDate) {
+		this.totalDate = totalDate;
+	}
+	
 }
