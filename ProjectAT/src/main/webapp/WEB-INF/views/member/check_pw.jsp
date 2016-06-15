@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <style type="text/css">
 .form-signin {
 	max-width: 350px;
-	padding: 19px 29px 29px;
 	margin: 0 auto 20px;
 	background-color: #fff;
 	border: 1px solid #e5e5e5;
@@ -17,13 +17,16 @@
 	text-align: center;
 }
 
-.form-signin .form-signin-heading{
-	margin-bottom: 10px;
-	text-align: center;
+.form_body {
+	padding: 10px 40px 29px;
+}
+
+.form-signin-heading{
+	padding-bottom: 20px; padding-top: 30px
 }
 
 input{
-	width: 300px;
+	width: 100%;
 }
 
 .form-signin input[type="text"], .form-signin input[type="password"] {
@@ -44,7 +47,7 @@ input{
 			dataType : "json",
 			success : function(result) {
 				if(!result){
-					$('#result_box').text('입력 정보가 잘못되었습니다.');
+					$('#result_box').text('비밀번호를 다시 입력하세요.');
 				}else{
 					location.href="mypage";
 				}
@@ -60,11 +63,11 @@ input{
 
 <div class="container">
 	<form class="form-signin">
-		<h3 class="form-signin-heading">비밀번호를 입력하세요.</h3>
-		<input type="password" class="input-block-level" name="pw" placeholder="">
-		<button class="btn btn-block btn-success" type="button" onclick="formcheck()">확인</button>
+		<h4 class="form-signin-heading"><img src="<c:url value="/resources/images/icon/warning.png"/>">&nbsp인증이 필요한 서비스입니다.</h4>
+		<div class="form_body">
+			<input type="password" class="input-block-level" name="pw" placeholder="비밀번호를 입력하세요.">
+			<p id="result_box" class="text-warning"></p>
+			<button class="btn btn-block btn-primary" type="button" onclick="formcheck()">확인</button>
+		</div>
 	</form>
-</div>
-<div id="result_box">
-
 </div>

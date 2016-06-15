@@ -18,6 +18,11 @@
 	-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
 	box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
 }
+
+.control-group {
+	margin-bottom: 20px;
+}
+
 </style>
 <script type="text/javascript">
 	
@@ -33,6 +38,16 @@
 		});
 		$('#datepicker .input-date').datepicker('setDate', 'today');
 	});
+	
+	function formcheck(){
+		if($('#pw1').val()!=$('#pw2').val()){
+			$('#pw2').parent().children('p').text('입력하신 비밀번호가 일치하지 않습니다.')
+			return;
+		} else {
+			$('#pw2').parent().children('p').text('');
+		}
+		$('#joinform').submit();
+	}
 </script>
 
 <div class="container">
@@ -41,7 +56,7 @@
 		<form:form id="joinform" commandName="memberVo" cssClass="form-join" action="join">
 			<fieldset>
 				<div id="legend">
-					<legend>AT출결 관리 시스템과 함께 합니다.</legend>
+					<legend><img src="<c:url value="/resources/images/icon/join.png"/>">&nbspAT출결 관리 시스템과 함께 합니다.</legend>
 				</div>
 				<div class="control-group">
 					<label class="control-label" for="userid">아이디</label>
@@ -54,9 +69,10 @@
 				<div class="control-group">
 					<label class="control-label" for="password">비밀번호</label>
 					<div class="controls">
-						<form:input type="password" path="userpw" cssClass="form-control input-lg typeahead tt-query" placeholder="비밀번호를 입력하세요."/>
-						<form:errors path="userpw" cssClass="text-danger"/>
-						<input type="password" class="form-control input-lg typeahead tt-query" placeholder="비밀번호를 재입력하세요."/>
+						<form:input type="password" path="userpw" id="pw1" cssClass="form-control input-lg typeahead tt-query" placeholder="비밀번호를 입력하세요."/>
+						<form:errors path="userpw" cssClass="text-danger"/><br>
+						<input type="password" id="pw2" class="form-control input-lg typeahead tt-query" placeholder="비밀번호를 재입력하세요."/>
+						<p class="text-danger"></p>
 					</div>
 				</div>
 
@@ -86,8 +102,8 @@
 
 				<div class="control-group">
 					<!-- Button -->
-					<div class="controls">
-						<form:button class="btn btn-success" id="join" type="submit">가입하기</form:button>
+					<div class="controls text-right">
+						<form:button class="btn btn-primary" type="button" onclick="formcheck()">가입하기</form:button>
 					</div>
 				</div>
 			</fieldset>

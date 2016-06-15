@@ -8,4 +8,5 @@ public interface StudentDao {
 	public List<MemberVo> getApplicantList();
 	public void setStudent(String id);
 	public void removeApplicant(String id);
+	public int removeStudent(int num);
 }

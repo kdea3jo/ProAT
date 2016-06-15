@@ -30,11 +30,6 @@
 			todayHighlight : true
 		});
 		$('#datepicker .input-date').datepicker('setDate', 'today');
-/* 		
-		$('#create').on('click', function(){
-			alert($('#time').val());
-		}); */
-		
 	});
 </script>
 
@@ -108,9 +103,5 @@
 	</table>
 	<button type="submit">개설</button>
 	<button type="button" onclick="location.href='list?state=1'">목록</button>
-	<sec:authorize access="hasAuthority('admin')">
-		<button type="button">수정</button>
-		<button type="button">삭제</button>
-	</sec:authorize>
 </div>
 </form:form>

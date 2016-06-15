@@ -38,6 +38,8 @@ $(document).ready(function(){
 
 </script>
 <div class="tableArea">
+<img width="100%" src="<c:url value="/resources/images/image/test.jpg"/>">
+
 <a href="list?state=1">진행중</a> / <a href="list?state=0">종료</a>
 	<table class="table table-striped table-bordered table-hover">
 		<thead>
@@ -49,9 +51,9 @@ $(document).ready(function(){
 				<sec:authorize access="hasAuthority('member')">
 					<th class="col-xs-1 text-center">신청</th>
 				</sec:authorize>
-				</tr>
+			</tr>
 		</thead>
-	
+		
 		<c:forEach items="${SubjectList}" var="subject" varStatus="status">
 			<tr class='clickable-row' onclick="location.href='read?num='+${subject.num}">
 				<input class="classnum" type="hidden" value="${subject.num}"/>

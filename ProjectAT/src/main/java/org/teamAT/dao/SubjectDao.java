@@ -14,4 +14,5 @@ public interface SubjectDao {
 	public SubjectVo getMyApplySubject(String id);
 	public SubjectVo getSubject(int num);
 	public int getApplicantCount(int num);
+	public int removeSubject(int num);
 }

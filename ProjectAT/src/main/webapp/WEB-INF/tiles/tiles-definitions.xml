@@ -37,6 +37,12 @@
 		<put-attribute name="body" value="/WEB-INF/views/admin/{1}.jsp" />
 	</definition>
 	
-
+	<definition name="/job/*" extends="template">
+		<put-attribute name="body" value="/WEB-INF/views/job/{1}.jsp" />
+	</definition>
+	
+	<definition name="500" extends="template">
+		<put-attribute name="body" value="/WEB-INF/views/err/403.jsp" />
+	</definition>
 
 </tiles-definitions>

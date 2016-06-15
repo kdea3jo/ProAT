@@ -15,4 +15,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <delete id="removeApplicant">
     	delete from applicant where userid=#{id}
     </delete>
+    <update id="removeStudent">
+    	update member set grade='member' where educlass=#{num}
+    </update>
 </mapper>

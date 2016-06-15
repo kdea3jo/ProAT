@@ -16,5 +16,4 @@ public class SearchVo {
 	public void setKeyword(String keyword) {
 		this.keyword = keyword;
 	}
-	
 }

@@ -1,6 +1,5 @@
 package org.teamAT.controller;
 
-import java.lang.ProcessBuilder.Redirect;
 import java.security.Principal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -12,6 +11,8 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.teamAT.service.SubjectService;
-import org.teamAT.vo.MemberVo;
 import org.teamAT.vo.SubjectVo;
 
 @Controller
@@ -37,6 +37,8 @@ public class SubjectController {
         DateFormat  dateFormat = new SimpleDateFormat("yy-MM-dd");
         binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat,true));
     }
+	
+	@Secured("admin")
 	@RequestMapping("createform")
 	private String viewCreateSubjectForm(Model model){
 		model.addAttribute(new SubjectVo());
@@ -70,6 +72,16 @@ public class SubjectController {
 	private String viewDetailedSubject(@RequestParam int num, HttpServletRequest request){
 		ss.getSubject(num, request);
 		return "/subject/read";
+	}
+	@RequestMapping("delete")
+	private String deleteSubject(@RequestParam int num){
+		ss.deleteSubject(num);
+		return "redirect:list?state=1";
+	}
+	@RequestMapping("modifyform")
+	private String viewModifyForm(@RequestParam int num, HttpServletRequest request){
+		ss.getSubject(num, request);
+		return "/subject/modify";
 	}
 	@RequestMapping(value="mysubject")
 	private String viewMySubject(HttpServletRequest request,Principal principal){

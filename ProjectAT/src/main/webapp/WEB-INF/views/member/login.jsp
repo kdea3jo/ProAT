@@ -19,10 +19,10 @@
 	text-align: center;
 }
 
-.form-signin .form-signin-heading{
-	margin-bottom: 10px;
-	text-align: center;
+.form-signin-heading{
+	padding-bottom: 20px; padding-top: 20px
 }
+
 
 input{
 	width: 300px;
@@ -44,11 +44,11 @@ input{
 
 <div class="container">
 	<form class="form-signin" action="<c:url value='/check'/>" method="post">
-		<h3 class="form-signin-heading">로그인</h3>
+		<div class="form-signin-heading"><img src="<c:url value="/resources/images/image/login.png"/>"></div>
 		<input type="text" class="input-block-level" name="id" placeholder="이메일을 입력하세요.">
 		<input type="password" class="input-block-level" name="pw" placeholder="비밀번호를 입력하세요.">
 		<h6><a href="help" class="text-primary">로그인에 어려움이 있으신가요?</a></h6><br><br>
-		<button class="btn btn-block btn-success" type="submit" >로그인</button>
+		<button class="btn btn-block btn-primary" type="submit" >로그인</button>
 		<h6><a href="joinform" class="text-primary">아직 회원이 아니시라면 지금 가입하세요.</a></h6>
 	</form>
 	<c:if test="${param.error==true }">

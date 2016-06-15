@@ -19,11 +19,11 @@
 			<ul class="nav navbar-nav">
 				<li><a href="/ProjectAT/board/notice/list">공지사항</a></li>
 				<li><a href="/ProjectAT/subject/list?state=1">강좌</a></li>
-				<li><a href="/ProjectAT/board/jobinfo/list">취업정보</a></li>
+				<li><a href="/ProjectAT/job/writeform">취업정보</a></li>
 				<li><a href="/ProjectAT/board/qna/list">Q&A</a></li>
 				<li><a href="/ProjectAT/attendance/list">출결현황</a></li>
 			</ul>
-			
+
 			<ul class="nav navbar-nav navbar-right">
 				<c:choose>
 					<c:when test="${sessionScope.name==null}">
@@ -31,7 +31,20 @@
 						<li><button class="btn btn-primary btn-sm navbar-btn" onclick="location.href='/ProjectAT/member/joinform'" type="button">회원가입</button></li>
 					</c:when>
 					<c:otherwise>
-						<li><a><strong>${sessionScope.name}</strong>님 반갑습니다.</a></li>
+						<li>
+							<a>
+								<sec:authorize access="hasAuthority('admin')">
+									<img src="<c:url value="/resources/images/icon/admin.png"/>">
+								</sec:authorize>
+								<sec:authorize access="hasAuthority('student')">
+									<img src="<c:url value="/resources/images/icon/student.png"/>">
+								</sec:authorize>
+								<sec:authorize access="hasAuthority('member')">
+									<img src="<c:url value="/resources/images/icon/member.png"/>">
+								</sec:authorize>
+								<strong>&nbsp${sessionScope.name}</strong>님 반갑습니다.	
+							</a>
+						</li>
 						<sec:authorize access="hasAuthority('admin')">
 							<li><a href="/ProjectAT/admin/studentView">관리자</a></li>
 						</sec:authorize>

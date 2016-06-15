@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 import org.teamAT.dao.StudentDao;
 import org.teamAT.dao.SubjectDao;
 import org.teamAT.vo.SubjectVo;
@@ -57,9 +58,25 @@ public class SubjectService {
 
 	public void getSubject(int num, HttpServletRequest request) {
 		SubjectDao dao=sqlSessionTemplate.getMapper(SubjectDao.class);	
+		String uri=request.getRequestURI();
 		SubjectVo vo=dao.getSubject(num);
-		int count=dao.getApplicantCount(num);
-		request.setAttribute("subjectVo", vo);
-		request.setAttribute("count", count);
+		
+		String changeStr=null;
+		if(uri.contains("modifyform")){
+			changeStr=vo.getContents().replaceAll("<br>", "\n");
+		}else if(uri.contains("read")){
+			changeStr=vo.getContents().replaceAll("\n", "<br>");
+			int count=dao.getApplicantCount(num);
+			request.setAttribute("count",count);
+		}
+		vo.setContents(changeStr);
+		request.setAttribute("subjectVo",vo);
+	}
+
+	public void deleteSubject(int num) {
+		StudentDao studentDao=sqlSessionTemplate.getMapper(StudentDao.class);
+		studentDao.removeStudent(num);
+		SubjectDao subjectDao=sqlSessionTemplate.getMapper(SubjectDao.class);	
+		subjectDao.removeSubject(num);
 	}
 }
