@@ -38,7 +38,7 @@ $(document).ready(function(){
 
 </script>
 <div class="tableArea">
-<img width="100%" src="<c:url value="/resources/images/image/test.jpg"/>">
+<img width="100%" src="<c:url value="/resources/images/image/subject.jpg"/>">
 
 <a href="list?state=1">진행중</a> / <a href="list?state=0">종료</a>
 	<table class="table table-striped table-bordered table-hover">

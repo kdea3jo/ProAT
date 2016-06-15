@@ -27,14 +27,14 @@
 		th {background-color: #337AB7; color:white;}
 	</style>
 <div class="tableArea">
-	<h1>
+	<div>
 	<c:choose>
-		<c:when test="${requestScope.boardname=='notice'}">공지사항</c:when>
+		<c:when test="${requestScope.boardname=='notice'}"><img width="100%" src="<c:url value="/resources/images/image/notice.jpg"/>"></c:when>
 		<c:when test="${requestScope.boardname=='qna'}">Q&A</c:when>
 		<c:when test="${requestScope.boardname=='jobinfo'}">취업정보</c:when>
 		<c:otherwise></c:otherwise>
 	</c:choose>
-	</h1>
+	</div>
 
 	<div class="currPageTotalPage">${requestScope.pageNation.currPage}/
 		${requestScope.pageNation.totalPages}</div>

@@ -19,6 +19,9 @@
 	-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
 	box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
 }
+.control-group {
+	margin-bottom: 20px;
+}
 </style>
 <script type="text/javascript">
 
@@ -47,6 +50,16 @@
 		});
 	});
 	
+	function formcheck(){
+		if($('#pw1').val()!=$('#pw2').val()){
+			$('#pw2').parent().children('p').text('입력하신 비밀번호가 일치하지 않습니다.')
+			return;
+		} else {
+			$('#pw2').parent().children('p').text('');
+		}
+		$('#joinform').submit();
+	}
+	
 </script>
 
 <div class="container">
@@ -68,9 +81,10 @@
 				<div class="control-group">
 					<label class="control-label" for="password">비밀번호</label>
 					<div class="controls">
-						<form:input type="password" path="userpw" cssClass="form-control input-lg typeahead tt-query" placeholder="비밀번호를 입력하세요." />
-						<form:errors path="userpw" cssClass="text-danger"/>
-						<input type="password" class="form-control input-lg typeahead tt-query" placeholder="비밀번호를 재입력하세요."/>
+						<form:input type="password" path="userpw" id="pw1" cssClass="form-control input-lg typeahead tt-query" placeholder="비밀번호를 입력하세요."/>
+						<form:errors path="userpw" cssClass="text-danger"/><br>
+						<input type="password" id="pw2" class="form-control input-lg typeahead tt-query" placeholder="비밀번호를 재입력하세요."/>
+						<p class="text-danger"></p>
 					</div>
 				</div>
 
@@ -98,9 +112,9 @@
 
 				<div class="control-group">
 					<!-- Button -->
-					<div class="controls">
-						<form:button class="btn btn-success" id="join" type="submit">완료</form:button>
-						<form:button class="btn btn-success" id="out" type="button">탈퇴</form:button>
+					<div class="controls text-right">
+						<form:button class="btn btn-primary" type="button" onclick="formcheck()">완료</form:button>
+						<form:button class="btn btn-danger" id="out" type="button">탈퇴</form:button>
 					</div>
 				</div>
 			</fieldset>
