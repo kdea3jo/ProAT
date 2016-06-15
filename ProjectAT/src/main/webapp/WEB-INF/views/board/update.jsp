@@ -47,8 +47,8 @@
 			<input class="form-control" name="title" id="title" type="text" value="${requestScope.content.title}"></input>
 		</div>
 		<div class="form-group">
-			<label for="content">내용</label> 
-			<textarea id="content" name="content" class="form-control" rows="25">${requestScope.content.content}</textarea>
+			<label for="contents">내용</label> 
+			<textarea id="contents" name="content" class="form-control" rows="25">${requestScope.content.content}</textarea>
 		</div>
 		<div id="btnArea">
 			<button id="update" type="button" class="btn btn-success">수정</button>

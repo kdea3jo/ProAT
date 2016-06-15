@@ -23,6 +23,9 @@
 			});
 		});
 	</script>
+	<style>
+		th {background-color: #337AB7; color:white;}
+	</style>
 <div class="tableArea">
 	<h1>
 	<c:choose>
@@ -35,7 +38,7 @@
 
 	<div class="currPageTotalPage">${requestScope.pageNation.currPage}/
 		${requestScope.pageNation.totalPages}</div>
-	<table class="table table-striped table-bordered table-hover">
+	<table class="table table-striped table-hover">
 		<thead>
 			<tr>
 				<th class="num col-xs-1 text-center">NO</th>
@@ -131,7 +134,7 @@
 		<div class="form-group">
 			<select name="type" class="form-control">
 				<option value="title">제목</option>
-				<option value="content">내용</option>
+				<option value="contents">내용</option>
 				<option value="num">글번호</option>
 				<option value="userid">글쓴이</option>
 			</select>

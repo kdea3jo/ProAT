@@ -75,23 +75,25 @@
 </style>
 
 <style>
-	#graph {width: 100%;height:100px;margin: 0px auto;}
+	#graph {width: 100%;height:100px;margin: 0px auto;border-bottom: gray 1px solid;}
 	#graph > p {position:relative;display:inline-block;float:left;font-weight:bold;color:#fff;font-size:15px;text-align: center;margin-top: 10px}
 	#graph > p strong {position:absolute;bottom:-20px;display:block;width:100%;text-align:center;color:#777;}
 	#graph > p em {vertical-align:middle;font-size:20px;}
-	#graph > p:nth-child(1) {height:30px;background:#337AB7;}
-	#graph > p:nth-child(2) {height:30px;background:#FB5175;}
-	#graph > p:nth-child(3) {height:30px;background:#dddddd;}
+	#graph > p:nth-child(2) {height:30px;background:#337AB7;}
+	#graph > p:nth-child(3) {height:30px;background:#FB5175;}
+	#graph > p:nth-child(4) {height:30px;background:#dddddd;}
+	#graph > div {font-size: 20px;}
 	
 	.calendar {width: 100%;}
 	
 	#content {width: 52%; margin: 0px auto;}
-	
+	#line {border-bottom: gray 1px solid;padding-bottom: 5px;} 
 	th{background-color: #eee;}
 	
 	
 </style>
 <h1>출결현황</h1>
+<div id="line"></div>
 <div class="table-responsive">
 	<h4>훈련 정보</h4>
 	<table class="table table-bordered" style="font-size: 15px">
@@ -105,12 +107,14 @@
 		</tr>
 	</table>
 </div>	
+<div id="line"></div>
 <h4>출결 현황</h4>
 <div id="graph" >
+	<div>[<strong>${requestScope.subjectInfo.totalDate}</strong>일 중 <strong>${requestScope.attendDate}</strong>일 출석, <strong>${requestScope.absenceDate}</strong>일 결석]</div>
 	<p class="graph01 graph"><em></em><strong>출석</strong></p>
 	<p class="graph02 graph"><em></em><strong>결석</strong></p>
 	<p class="graph03 graph"><em></em><strong></strong></p>
 </div>
-	<p>${requestScope.subjectInfo.totalDate} 중${requestScope.attendDate}일 출석, ${requestScope.absenceDate}일 결석  </p>
+	
 <h4>출결 현황 달력</h4><br>
 <div id='calendar' ></div>

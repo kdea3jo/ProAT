@@ -15,9 +15,9 @@
 			if($("input[name=title]").val()==null||$("input[name=title]").val()==""){
 				alert("제목을 입력하세요.");
 				$("input[name=title]").focus();
-			}else if($("textarea[name=content]").val()==null||$("textarea[name=content]").val()==""){
+			}else if($("textarea[name=contents]").val()==null||$("textarea[name=contents]").val()==""){
 				alert("내용을 입력하세요.");
-				$("textarea[name=content]").focus();
+				$("textarea[name=contents]").focus();
 			}else{
 				var data=$("#inputForm").serialize();
 				var url = "../${requestScope.boardname}/insert";
@@ -51,8 +51,8 @@
 			<input name="userid" type="text" class="sr-only" value='<sec:authentication property="principal"/>'></input>
 		</div>
 		<div class="form-group">
-			<label for="content">내용</label>
-			<textarea name="content" class="form-control" rows="25" placeholder="내용을 입력하세요."></textarea>
+			<label for="contents">내용</label>
+			<textarea name="contents" class="form-control" rows="25" placeholder="내용을 입력하세요."></textarea>
 		</div>
 		<div id="btnArea">
 			<button id="ok" type="button" class="btn btn-success">등록</button>

@@ -62,7 +62,7 @@ $(function() {
 			<td id="realtitle" colspan="8" style="text-align: left"><label for="title" class="sr-only">제목</label>${requestScope.content.title}</td>
 		</tr>
 		<tr>
-			<td id="realcontent" colspan="8" style="text-align: left"><label for="content" class="sr-only">내용</label>${requestScope.content.content}</td>
+			<td id="realcontent" colspan="8" style="text-align: left"><label for="contents" class="sr-only">내용</label>${requestScope.content.contents}</td>
 		</tr>
 	</table>
 	
@@ -78,7 +78,7 @@ $(function() {
 			<c:forEach var="items" items="${requestScope.commentList}" varStatus="status">
 				<li class="commentList">
 					<div>${items.userid} &nbsp; <fmt:formatDate value='${items.wdate}' pattern='yyyy-MM-dd h:mm'/></div>
-					<div>${items.content}</div>
+					<div>${items.contents}</div>
 				</li>
 			</c:forEach>
 	
@@ -141,9 +141,9 @@ $(function() {
 		</div>
 	<form id="commentForm" action="comment" method="post">
 			<label for="commentUserid" >작성자</label>
-			<span id="commentUserid"><input name="userid" type="text" class="sr-only" value="${sessionScope.name}"></input>${sessionScope.name}</span><br>
+			<span id="commentUserid"><input name="userid" type="text" class="sr-only" value='<sec:authentication property="principal"/>'></input>${sessionScope.name}</span><br>
 			<label for="commentContent" class="sr-only">내용</label>
-			<textarea id="commentContent" name="content" class="form-control" rows="3"></textarea>
+			<textarea id="commentContent" name="contents" class="form-control" rows="3"></textarea>
 			<input name="boardnum" value="${requestScope.content.num}" class="sr-only">
 		<div class="btnArea form-group">
 			<button id="ok" type="submit" class="btn btn-success">댓글등록</button>

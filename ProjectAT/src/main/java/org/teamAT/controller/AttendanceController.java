@@ -21,7 +21,6 @@ public class AttendanceController {
 	public String getlist(Principal principal, HttpServletRequest request){
 		service.getSubjectInfo(principal.getName(), request);
 		service.getAttendList(principal.getName(), request);
-		System.out.println("여기까진?");
 		return "/attendance/list";
 	}
 }

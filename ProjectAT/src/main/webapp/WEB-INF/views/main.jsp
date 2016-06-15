@@ -41,3 +41,52 @@
 		aria-hidden="true"></span> <span class="sr-only">Next</span>
 	</a>
 </div>
+<style>
+	#boardListArea {width:70%; margin: 0px auto;}
+	#boardListArea > div > table th {background-color: #eee;}
+	#boardListArea > div {width:40%;display: inline-block; margin: 20px 50px;}
+	#boardListArea > div > table { margin: 0px auto;}
+	#boardListArea > div > table th, td { font-size: 12px;}
+	#boardListArea > div > div {text-align: right;}
+	#boardListArea > div > h4 {text-align: center;}
+</style>
+<div id="boardListArea" >
+	<div id="noticeList">
+	<h4>공지사항</h4>	
+	<div><a href="board/notice/list" >공지사항 더보기</a></div>
+		<table class="table table-hover table-condensed">
+			<thead>
+				<tr><th class="num col-xs-1 text-center">NO</th><th class="title col-xs-4 text-center">제목</th><th class="wDate col-xs-2 text-center">날짜</th></tr>
+			</thead>
+			<tbody>
+			<c:forEach var="items" items="${requestScope.noticeList}" varStatus="status">
+				<tr>
+					<td class="num col-xs-1 text-center">${items.num}</td>
+					<td class="title col-xs-4"><a
+					href="board/notice/read?num=${items.num}">${items.title}</a></td>
+					<td class="wDate col-xs-2 text-center">${items.wDate}</td>
+				</tr>			
+			</c:forEach>
+			</tbody>
+		</table>
+	</div>
+	<div id="qnaList">
+	<h4>Q&A</h4>	
+	<div><a href="board/qna/list" >Q&A 더보기</a></div>
+		<table class="table table-hover table-condensed">
+			<thead>
+				<tr><th class="num col-xs-1 text-center">NO</th><th class="title col-xs-4 text-center">제목</th><th class="wDate col-xs-2 text-center">날짜</th></tr>
+			</thead>
+			<tbody>
+			<c:forEach var="items" items="${requestScope.qnaList}" varStatus="status">
+				<tr>
+					<td class="num col-xs-1 text-center">${items.num}</td>
+					<td class="title col-xs-4"><a
+					href="board/qna/read?num=${items.num}">${items.title}</a></td>
+					<td class="wDate col-xs-2 text-center">${items.wDate}</td>
+				</tr>			
+			</c:forEach>
+			</tbody>
+		</table>
+	</div>
+</div>
