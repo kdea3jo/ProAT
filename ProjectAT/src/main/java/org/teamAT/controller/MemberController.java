@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.teamAT.service.MemberService;
+import org.teamAT.service.SubjectService;
 import org.teamAT.vo.MemberVo;
 
 @Controller
@@ -37,6 +38,8 @@ public class MemberController {
 
 	@Autowired
 	private MemberService ms;
+	@Autowired
+	private SubjectService ss;
 	
 	@InitBinder /*form에서 date 타입을 맵핑할 때 필요한 메서드*/
     protected void initBinder(WebDataBinder binder){
@@ -58,7 +61,9 @@ public class MemberController {
 	@RequestMapping("loginsuccess")
 	public String loginSuccess(Principal principal,HttpServletRequest request) {
 		String username=ms.getUserName(principal.getName());
+		int cnt=ss.getTotalApplicantCount();
 		request.getSession().setAttribute("name", username);
+		request.getSession().setAttribute("cnt", cnt);
 		return "redirect:/main";
 	}
 

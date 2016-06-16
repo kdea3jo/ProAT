@@ -24,6 +24,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="getApplicantCount" resultType="int">
 		select count(*) from applicant where num=#{num}
 	</select>
+	<select id="getTotalApplicantCount" resultType="int">
+		select count(*) from applicant
+	</select>
 	<delete id="removeSubject">
 		delete from educlass where num=#{num}
 	</delete>

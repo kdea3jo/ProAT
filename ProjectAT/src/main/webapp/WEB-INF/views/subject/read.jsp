@@ -43,9 +43,11 @@ function deleteSubject() {
 			</td>
 		</tr>
 	</table>
-	<button type="button" onclick="location.href='list?state=1'">목록</button>
-	<sec:authorize access="hasAuthority('admin')">
-		<button type="button" onclick="location.href='modifyform?num='+${subjectVo.num}">수정</button>
-		<button type="button" onclick="deleteSubject()">삭제</button>
-	</sec:authorize>
+	<p class="text-right" style="margin-top: 20px">
+		<button type="button" class="btn btn-btn-secondary" onclick="location.href='list?state=1'">목록</button>
+		<sec:authorize access="hasAuthority('admin')">
+			<button type="button" class="btn btn-btn-secondary" onclick="location.href='modifyform?num='+${subjectVo.num}">수정</button>
+			<button type="button" class="btn btn-btn-secondary" onclick="deleteSubject()">삭제</button>
+		</sec:authorize>
+	</p>
 </div>

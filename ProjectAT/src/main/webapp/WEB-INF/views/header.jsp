@@ -25,33 +25,30 @@
 			</ul>
 
 			<ul class="nav navbar-nav navbar-right">
-				<c:choose>
-					<c:when test="${sessionScope.name==null}">
-						<li><a href="/ProjectAT/member/loginform">로그인</a></li>
-						<li><button class="btn btn-primary btn-sm navbar-btn" onclick="location.href='/ProjectAT/member/joinform'" type="button">회원가입</button></li>
-					</c:when>
-					<c:otherwise>
-						<li>
-							<a>
-								<sec:authorize access="hasAuthority('admin')">
-									<img src="<c:url value="/resources/images/icon/admin.png"/>">
-								</sec:authorize>
-								<sec:authorize access="hasAuthority('student')">
-									<img src="<c:url value="/resources/images/icon/student.png"/>">
-								</sec:authorize>
-								<sec:authorize access="hasAuthority('member')">
-									<img src="<c:url value="/resources/images/icon/member.png"/>">
-								</sec:authorize>
-								<strong>&nbsp${sessionScope.name}</strong>님 반갑습니다.	
-							</a>
-						</li>
-						<sec:authorize access="hasAuthority('admin')">
-							<li><a href="/ProjectAT/admin/studentView">관리자</a></li>
-						</sec:authorize>
-						<li><a href="/ProjectAT/member/check_pw">마이페이지</a></li>
-						<li><a href="/ProjectAT/logout">로그아웃</a></li>
-					</c:otherwise>		
-				</c:choose>
+			
+				<sec:authorize access="isAnonymous()">
+					<li><a href="/ProjectAT/member/loginform">로그인</a></li>
+					<li><button class="btn btn-primary btn-sm navbar-btn" onclick="location.href='/ProjectAT/member/joinform'" type="button">회원가입</button></li>
+				</sec:authorize>
+
+				<sec:authorize access="isAuthenticated()">
+					<li><a> <sec:authorize access="hasAuthority('admin')">
+								<img src="<c:url value="/resources/images/icon/admin.png"/>">
+							</sec:authorize> 
+							<sec:authorize access="hasAuthority('student')">
+								<img src="<c:url value="/resources/images/icon/student.png"/>">
+							</sec:authorize> 
+							<sec:authorize access="hasAuthority('member')">
+								<img src="<c:url value="/resources/images/icon/member.png"/>">
+							</sec:authorize> 
+							<strong>&nbsp${sessionScope.name}</strong>님 반갑습니다.
+					</a></li>
+					<sec:authorize access="hasAuthority('admin')">
+						<li><a href="/ProjectAT/admin/studentView">관리자 <span id="admin_cnt" class="badge">${sessionScope.cnt}</span></a></li>
+					</sec:authorize>
+					<li><a href="/ProjectAT/member/check_pw">마이페이지</a></li>
+					<li><a href="/ProjectAT/logout">로그아웃</a></li>
+				</sec:authorize>
 			</ul>
 		</div>
 	</div>

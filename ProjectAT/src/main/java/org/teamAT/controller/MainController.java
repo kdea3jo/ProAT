@@ -15,7 +15,7 @@ public class MainController {
 	@RequestMapping(value="main")
 	public String getBoardList(HttpServletRequest request){
 		service.getBoardList(request);
+		System.out.println(request.getUserPrincipal());
 		return "main";
 	}
-	
 }

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.teamAT.service.AdminService;
 import org.teamAT.vo.MemberVo;
 
@@ -31,14 +32,25 @@ public class AdminController {
 		model.addAttribute("ApplicantList", list);
 		return "/admin/applicantlist";
 	}
+	@ResponseBody
 	@RequestMapping("addstudent")
-	public String addStudent(@RequestParam String id) {
-		as.setStudent(id);
-		return "redirect:applicantView";
+	public boolean addStudent(@RequestParam String id) {
+		return as.setStudent(id);
 	}
+	@ResponseBody
+	@RequestMapping("removestudent")
+	public boolean removeStudent(@RequestParam String id) {
+		return as.removeStudent(id);
+	}
+	@ResponseBody
 	@RequestMapping("removeapplicant")
-	public String removeApplicant(@RequestParam String id) {
-		as.removeApplicant(id);
-		return "redirect:applicantView";
+	public boolean removeApplicant(@RequestParam String id) {
+		return as.removeApplicant(id);
+	}
+	@RequestMapping("userdetails")
+	public String viewUserDetails(@RequestParam String id, HttpServletRequest request) {
+		as.getUserDetails(id,request);
+		System.out.println("µÇÁö?");
+		return "/admin/userdetails";
 	}
 }

@@ -18,23 +18,35 @@ $(document).ready(function(){
 });
 
 </script>
-<a href="studentView">신청중</a> <a href="applicantView">수강완료</a>
-
+<div class="tableArea">
+<p class="text-right" style="margin-top: 30px"><a href="studentView">신청중</a> <a href="applicantView">수강완료</a></p>
 <c:choose>
 	<c:when test="${subjectVo.num!=null}">
-		<table>
-			<tr><th>강좌명</th><th>시작일/종료일</th><th>모집인원</th><th>신청일</th><th>취소</th></tr>
-			<tr class='clickable-row' data-href='#'>
-				<input class="classnum" type="hidden" value="${subjectVo.num}"/>
-				<td class="classname">${subjectVo.classname}</td>
-				<td><fmt:formatDate value='${subjectVo.startdate}' pattern='yyyy-MM-dd'/>~<fmt:formatDate value='${subjectVo.enddate}' pattern='yyyy-MM-dd'/></td>
-				<td>${subjectVo.total}</td>
-				<td><fmt:formatDate value='${subjectVo.adate}' pattern='yyyy-MM-dd'/></td>
-				<td><button type="button" class="cancel_btn">취소</button></td>
+	<table class="table table-striped table-bordered table-hover text-center">
+		<thead>
+			<tr>
+				<th class="col-xs-5 text-center">강좌명</th>
+				<th class="col-xs-3 text-center">시작일/종료일</th>
+				<th class="col-xs-1 text-center">모집인원</th>
+				<th class="col-xs-2 text-center">신청일</th>
+				<th class="col-xs-1 text-center">취소</th>
 			</tr>
-		</table>
+		</thead>
+
+		<tr class='clickable-row' data-href='#'>
+			<input class="classnum" type="hidden" value="${subjectVo.num}" />
+			<td class="classname">${subjectVo.classname}</td>
+			<td><fmt:formatDate value='${subjectVo.startdate}' pattern='yyyy-MM-dd' />~
+				<fmt:formatDate	value='${subjectVo.enddate}' pattern='yyyy-MM-dd' />
+			</td>
+			<td>${subjectVo.total}</td>
+			<td><fmt:formatDate value='${subjectVo.adate}' pattern='yyyy-MM-dd' /></td>
+			<td><button type="button" class="cancel_btn">취소</button></td>
+		</tr>
+	</table>
 	</c:when>
 	<c:otherwise>
-		신청한 강좌가 없습니다.
+		<img src="<c:url value="/resources/images/image/notify.png"/>">
 	</c:otherwise>
 </c:choose>
+</div>

@@ -1,10 +1,11 @@
 package org.teamAT.service;
 
 import java.util.List;
-
+import javax.servlet.http.HttpServletRequest;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.teamAT.dao.MemberDao;
 import org.teamAT.dao.StudentDao;
 import org.teamAT.vo.MemberVo;
 
@@ -26,14 +27,34 @@ public class AdminService {
 		return list;
 	}
 	
-	public void setStudent(String id){
+	public boolean setStudent(String id){
 		StudentDao dao=sqlSessionTemplate.getMapper(StudentDao.class);
-		dao.setStudent(id);
-		dao.removeApplicant(id);
+		int result=dao.setStudent(id);
+		if(result>=1){
+			result=dao.removeApplicant(id);
+		}
+		return result >=1 ? true : false;
 	}
 	
-	public void removeApplicant(String id){
+	public boolean removeApplicant(String id){
 		StudentDao dao=sqlSessionTemplate.getMapper(StudentDao.class);
-		dao.removeApplicant(id);
+		int result=dao.removeApplicant(id);
+		return result >=1 ? true : false;
+	}
+
+	public boolean removeStudent(String id) {
+		StudentDao dao=sqlSessionTemplate.getMapper(StudentDao.class);
+		int result=dao.removeStudent(id);
+		System.out.println(result);
+		return result>=1 ? true:false; 
+	}
+
+	@Autowired
+	private AttendanceServiece as;
+	public void getUserDetails(String id, HttpServletRequest request) {
+		MemberDao dao=sqlSessionTemplate.getMapper(MemberDao.class);
+		as.getSubjectInfo(id, request);
+		as.getAttendList(id, request);
+		request.setAttribute("memberVo", dao.getMember(id));	
 	}
 }

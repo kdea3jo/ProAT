@@ -32,18 +32,16 @@ public class SubjectService {
 	
 	public int applySubject(int num, String id){
 		/*
-			1=현재 수간신청 중인 강좌가 존재함
-			2=수강 신청 가능
-			3=insert 과정에서 exception 발생
+			0=현재 수간신청 중인 강좌가 존재함
+			1 이상 수강 신청 가능
 		*/
 		SubjectDao dao=sqlSessionTemplate.getMapper(SubjectDao.class);	
 		int result=dao.getApplicantMember(id);
-		if(result>=1) return 1;
+		if(result>=1) return 0;
 		
-		result=dao.applySubject(num,id);
-		System.out.println(result);
-		System.out.println(result >= 1 ? 2:3);
-		return result >= 1 ? 2:3 ;
+		dao.applySubject(num,id);
+		result=dao.getTotalApplicantCount();
+		return result >= 1 ? result:0 ;
 	}
 
 	public SubjectVo getMyApplySubject(String id) {
@@ -75,8 +73,14 @@ public class SubjectService {
 
 	public void deleteSubject(int num) {
 		StudentDao studentDao=sqlSessionTemplate.getMapper(StudentDao.class);
-		studentDao.removeStudent(num);
+		studentDao.removeAllStudent(num);
 		SubjectDao subjectDao=sqlSessionTemplate.getMapper(SubjectDao.class);	
 		subjectDao.removeSubject(num);
+	}
+
+	public int getTotalApplicantCount() {
+		SubjectDao dao=sqlSessionTemplate.getMapper(SubjectDao.class);	
+		int cnt=dao.getTotalApplicantCount();
+		return cnt;
 	}
 }

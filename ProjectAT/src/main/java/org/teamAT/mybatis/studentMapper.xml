@@ -10,12 +10,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
        	select m.userid,username,phone,birthday,e.classname educlass,adate applicantDate from member m inner join applicant a on m.userid=a.userid inner join educlass e on a.num=e.num
     </select>
     <update id="setStudent">
-    	update member set educlass=(select num from applicant where userid=#{id}), grade='student'
+    	update member set educlass=(select num from applicant where userid=#{id}), grade='student' where userid=#{id}
     </update>
     <delete id="removeApplicant">
     	delete from applicant where userid=#{id}
     </delete>
-    <update id="removeStudent">
+    <update id="removeAllStudent">
     	update member set grade='member' where educlass=#{num}
+    </update>
+    <update id="removeStudent">
+    	update member set grade='member', educlass=null where userid=#{id}
     </update>
 </mapper>

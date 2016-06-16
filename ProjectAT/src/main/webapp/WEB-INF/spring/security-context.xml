@@ -47,6 +47,7 @@
             username-parameter="id"
             password-parameter="pw"
             default-target-url="/member/loginsuccess"
+            always-use-default-target="true"
             authentication-failure-url="/member/loginform?error=true" />
         <logout logout-success-url="/member/loginform" />
         <csrf disabled="true"/>
