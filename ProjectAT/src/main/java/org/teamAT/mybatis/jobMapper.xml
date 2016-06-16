@@ -4,6 +4,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.teamAT.dao.JobDao">
 	<insert id="setJobInfo" parameterType="org.teamAT.vo.JobInfoVo">
-		insert into jobinfo values(jobinfo_num_seq,#{userid},#{title},#{contents},sysdate,#{hirecount},#{period},#{company})
+		insert into jobinfo values(jobinfo_num_seq.nextval,#{userid},#{title},#{contents},sysdate,#{hirecount},#{period},#{company})
 	</insert>
+	<select id="getJobList" resultType="org.teamAT.vo.JobInfoVo">
+		select * from jobinfo
+	</select>
 </mapper>

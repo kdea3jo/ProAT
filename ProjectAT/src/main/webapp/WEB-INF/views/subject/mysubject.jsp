@@ -10,18 +10,26 @@ td,th{border:1px solid black}
 <script type="text/javascript">
 
 $(document).ready(function(){
+	
+	$('[data-toggle="tooltip"]').tooltip();
+	
 	$('.cancel_btn').on('click', function(){
 		
-		if(!confirm('['+$(this).parent().siblings('.classname').text()+']'+'를 수강 취소하시겠습니까?')) return;
-		location.href="cancel";
+		bootbox.confirm({ 
+		    message: '['+$(this).parent().siblings('.classname').text()+']'+'를 수강 취소하시겠습니까?', 
+		 	callback: function(result){
+		 		if(!result) return;
+				location.href="cancel";
+		 	}
+		});
 	});
 });
 
 </script>
 <div class="tableArea">
-<p class="text-right" style="margin-top: 30px"><a href="studentView">신청중</a> <a href="applicantView">수강완료</a></p>
 <c:choose>
 	<c:when test="${subjectVo.num!=null}">
+	<p class="text-right"><img data-toggle="tooltip" data-placement="top" title="강좌는 중복 신청이 불가능합니다." src="<c:url value="/resources/images/icon/light.png"/>"></p>
 	<table class="table table-striped table-bordered table-hover text-center">
 		<thead>
 			<tr>
@@ -41,12 +49,19 @@ $(document).ready(function(){
 			</td>
 			<td>${subjectVo.total}</td>
 			<td><fmt:formatDate value='${subjectVo.adate}' pattern='yyyy-MM-dd' /></td>
-			<td><button type="button" class="cancel_btn">취소</button></td>
+			<td><button type="button" class="btn btn-secondary dropdown-toggle cancel_btn">취소</button></td>
 		</tr>
 	</table>
 	</c:when>
 	<c:otherwise>
-		<img src="<c:url value="/resources/images/image/notify.png"/>">
+		<script type="text/javascript">
+			$(document).ready(function(){
+				bootbox.alert('신청중인 강좌가 존재하지 않습니다.', function(result) {
+		    		location.href="/ProjectAT/subject/list?state=1";
+		    	});
+			});
+			
+		</script>
 	</c:otherwise>
 </c:choose>
 </div>

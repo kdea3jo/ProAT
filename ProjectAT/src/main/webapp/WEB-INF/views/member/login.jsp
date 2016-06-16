@@ -2,7 +2,9 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<style>
+a{cursor: pointer}
+</style>
 <style type="text/css">
 .form-signin {
 	max-width: 350px;
@@ -47,7 +49,12 @@ input{
 		<div class="form-signin-heading"><img src="<c:url value="/resources/images/image/login.png"/>"></div>
 		<input type="text" class="input-block-level" name="id" placeholder="이메일을 입력하세요.">
 		<input type="password" class="input-block-level" name="pw" placeholder="비밀번호를 입력하세요.">
-		<h6><a href="help" class="text-primary">로그인에 어려움이 있으신가요?</a></h6><br><br>
+		<h6><a class="text-primary" data-toggle="collapse" data-target="#demo">로그인에 어려움이 있으신가요?</a></h6>
+		<div id="demo" class="collapse">
+		    <a class="text-warning" href="help.id">아이디가 기억나지 않습니다.</a><br>
+		    <a class="text-warning" href="help.pw">비밀번호를 잊어버렸습니다.</a>
+  		</div>
+		<br><br>
 		<button class="btn btn-block btn-primary" type="submit" >로그인</button>
 		<h6><a href="joinform" class="text-primary">아직 회원이 아니시라면 지금 가입하세요.</a></h6>
 	</form>

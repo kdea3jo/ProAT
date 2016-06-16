@@ -14,28 +14,31 @@ jQuery(document).ready(function($) {
     	var tr=$(this).closest('tr');
     	var name=$(this).closest('tr').children('.username').text();
     	var id=$(this).closest('tr').children('input').val();
-
-    	/* if(!confirm('['+name+']'+'님의 수강신청을 수락하시겠습니까?')) return;
- */    	    	    	
-    	$.ajax({
-	        type:"get",
-	        url:"addstudent",
-	        data:{'id':id},
-	        dataType:"json",
-	        success:function(result){
-	            if(result) {
-	            	alert('['+name+']'+'님이 학생으로 등록되었습니다.');
-	            	tr.remove();
-	            }else{
-	            	alert("학생 등록에 실패하였습니다.");
-	            }
-	        },
-	        complete:function(data){            
-	        },
-	        error:function(xhr,status,error){
-	 
-	        }
-		});
+    	    	
+    	bootbox.confirm({ 
+		    message: '['+name+']'+'님의 수강신청을 수락하시겠습니까?', 
+		 	callback: function(result){
+		 		if(!result) return;
+		 		$.ajax({
+			        type:"get",
+			        url:"addstudent",
+			        data:{'id':id},
+			        dataType:"json",
+			        success:function(result){
+			            if(result) {
+			            	bootbox.alert('['+name+']'+"님이 학생 리스트에 추가되었습니다.", function() {});
+			            	tr.remove();
+			            }else{
+			            	alert("학생 등록에 실패하였습니다.");
+			            }
+			        },
+			        complete:function(data){            
+			        },
+			        error:function(xhr,status,error){
+			        }
+				});
+		 	}
+    	});
 	});
     
     $(".no").on('click',function(){
@@ -44,27 +47,32 @@ jQuery(document).ready(function($) {
     	var name=$(this).closest('tr').children('.username').text();
     	var id=$(this).closest('tr').children('input').val();
 
-    	if(!confirm('['+name+']'+'님의 수강신청을 거절하시겠습니까?')) return;
-    	    	    	
-    	$.ajax({
-	        type:"get",
-	        url:"removeapplicant",
-	        data:{'id':id},
-	        dataType:"json",
-	        success:function(result){
-	            if(result) {
-	            	alert('['+name+']'+'님의 수강신청을 거절했습니다.');
-	            	tr.remove();
-	            }else{
-	            	alert("실패하였습니다.");
-	            }
-	        },
-	        complete:function(data){            
-	        },
-	        error:function(xhr,status,error){
-	 
-	        }
-		});
+    	bootbox.confirm({ 
+		    message: '['+name+']'+'님의 수강신청을 거절하시겠습니까?', 
+		 	callback: function(result){
+		 		if(!result) return;
+		 		
+		 		$.ajax({
+			        type:"get",
+			        url:"removeapplicant",
+			        data:{'id':id},
+			        dataType:"json",
+			        success:function(result){
+			            if(result) {
+			            	alert('['+name+']'+'님의 수강신청을 거절했습니다.');
+			            	tr.remove();
+			            }else{
+			            	alert("실패하였습니다.");
+			            }
+			        },
+			        complete:function(data){            
+			        },
+			        error:function(xhr,status,error){
+			 
+			        }
+				});
+		 	}
+    	});
     });   
 });
 
@@ -75,8 +83,7 @@ jQuery(document).ready(function($) {
 		<li><a href="applicantView">수강 신청자</a></li>
 	</ul>
 
-	<table
-		class="table table-striped table-bordered table-hover text-center">
+	<table class="table table-striped table-bordered table-hover text-center">
 		<thead>
 			<tr>
 				<th class="col-xs-1 text-center">번호</th>
@@ -96,8 +103,6 @@ jQuery(document).ready(function($) {
 				<td><fmt:formatDate value='${applicant.applicantDate}' pattern='yyyy-MM-dd' /></td>
 				<td class="username">${applicant.username}</td>
 				<td><fmt:formatDate value='${applicant.birthday}' pattern='yyyy-MM-dd' /></td>
-<%-- 			<td class="userid">${applicant.userid}</td>
-				<td>${applicant.phone}</td> --%>
 				<td>
 					<div class="dropdown">
 						<button class="btn btn-secondary dropdown-toggle" type="button"

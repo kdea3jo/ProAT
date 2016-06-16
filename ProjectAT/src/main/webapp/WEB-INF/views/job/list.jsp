@@ -49,43 +49,33 @@ $(document).ready(function(){
 
 </script>
 <div class="tableArea">
-<img width="100%" src="<c:url value="/resources/images/image/subject.jpg"/>">
+<img width="100%" src="<c:url value="/resources/images/image/jobinfo.png"/>">
 
-	<ul class="pager text-right" style="margin-top: 30px">
-  		<li><a href="list?state=1">진행중</a></li>
-  		<li><a href="list?state=0">종료</a></li>
-	</ul>
-
-	<table class="table table-striped table-hover">
+	<table class="table table-striped table-hover" style="margin-top: 40px">
 		<thead>
 			<tr>
 				<th class="col-xs-1 text-center">번호</th>
-				<th class="col-xs-4 text-center">강좌명</th>
-				<th class="col-xs-3 text-center">시작일/종료일</th>
-				<th class="col-xs-1 text-center">모집인원</th>
-				<sec:authorize access="hasAuthority('member')">
-					<th class="col-xs-1 text-center">신청</th>
-				</sec:authorize>
+				<th class="col-xs-4 text-center">제목</th>
+				<th class="col-xs-3 text-center">회사명</th>
+				<th class="col-xs-1 text-center">고용인원</th>
+				<th class="col-xs-1 text-center">작성일</th>
 			</tr>
 		</thead>
 		
-		<c:forEach items="${SubjectList}" var="subject" varStatus="status">
-			<tr class='clickable-row' onclick="read?num=${subject.num}">
-				<input class="classnum" type="hidden" value="${subject.num}" />
-				<td class="text-center">
-				${status.count}</td>
-				<td class="classname text-center">${subject.classname}</td>
-				<td class="text-center"><fmt:formatDate value='${subject.startdate}' pattern='yyyy-MM-dd'/>~<fmt:formatDate value='${subject.enddate}' pattern='yyyy-MM-dd'/></td>
-				<td class="text-center">${subject.total}</td>
-				<sec:authorize access="hasAuthority('member')">
-					<td class="text-center"><button type="button" class="apply_btn btn btn-secondary">신청</button></td>
-				</sec:authorize>
+		<c:forEach items="${jobinfoVo}" var="job" varStatus="status">
+			<tr class='clickable-row' onclick="read?num=${job.num}">
+				<input class="jobnum" type="hidden" value="${job.num}" />
+				<td class="text-center">${status.count}</td>
+				<td class="text-center">${job.title}</td>
+				<td class="text-center">${job.company}</td>
+				<td class="text-center">${job.hirecount}</td>
+				<td class="text-center"><fmt:formatDate value='${job.wdate}' pattern='yyyy-MM-dd'/></td>
 			</tr>
 		</c:forEach>
 	</table>
 	<sec:authorize access="hasAuthority('admin')">
 		<p class="text-right" style="margin-top: 20px">
-			<button type="button" class="btn btn-btn-secondary" onclick="location.href='createform'">개설</button>
+			<button type="button" class="btn btn-btn-secondary" onclick="location.href='writeform'">등록</button>
 		</p>
 	</sec:authorize>
 </div>

@@ -101,7 +101,9 @@
 			</td>
 		</tr>
 	</table>
-	<button type="submit">개설</button>
-	<button type="button" onclick="location.href='list?state=1'">목록</button>
+	<p class="text-right" style="margin-top: 20px">
+		<button type="submit" class="btn btn-btn-secondary">개설</button>
+		<button type="button" class="btn btn-btn-secondary" onclick="location.href='list?state=1'">목록</button>
+	</p>
 </div>
 </form:form>

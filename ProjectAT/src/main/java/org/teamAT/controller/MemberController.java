@@ -61,9 +61,7 @@ public class MemberController {
 	@RequestMapping("loginsuccess")
 	public String loginSuccess(Principal principal,HttpServletRequest request) {
 		String username=ms.getUserName(principal.getName());
-		int cnt=ss.getTotalApplicantCount();
 		request.getSession().setAttribute("name", username);
-		request.getServletContext().setAttribute("cnt", cnt);
 		return "redirect:/main";
 	}
 
@@ -76,12 +74,7 @@ public class MemberController {
 	public String viewMypage(){
 		return "/member/mypage";
 	}
-	
-	@RequestMapping("help")
-	public String viewHelp() {
-		return "/member/help";
-	}
-	
+		
 	@RequestMapping("help.id")
 	public String viewHelpId() {
 		return "/member/help_id";
@@ -140,6 +133,11 @@ public class MemberController {
 		}
 		ms.join(memberVo);
 		return "redirect:loginform";
+	}
+	@ResponseBody
+	@RequestMapping(value = "idcheck", method = RequestMethod.POST)
+	public boolean join(@RequestParam String id) {
+		return ms.isDuplicateId(id);
 	}
 	
 	@ResponseBody

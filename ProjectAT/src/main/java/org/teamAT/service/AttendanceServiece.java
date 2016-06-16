@@ -61,6 +61,7 @@ public class AttendanceServiece {
 	}
 	
 	private String replace(String time){
+		System.out.println(time);
 		String str = time;
 		if(str.equals("-1")){
 			return "정보 없음";
@@ -69,7 +70,7 @@ public class AttendanceServiece {
 		String result = str.substring(0, 2)+":"+str.substring(2,4);
 		return result;
 	}
-	
+		
 	@org.springframework.scheduling.annotation.Scheduled(cron = "0 0 0 * * MON-FRI") // 0 0 9-17 * * MON-FRI : 주중 9시부터 17시까지
     public void test(){
 		AttendanceDao dao = sqlSessionTemplate.getMapper(AttendanceDao.class);
@@ -79,7 +80,9 @@ public class AttendanceServiece {
 		}
     }
 	
-
-	
-
+	public boolean setAtdException(Date date, String userid) {
+		AttendanceDao dao = sqlSessionTemplate.getMapper(AttendanceDao.class);
+		int result=dao.setAtdException(date,userid);
+		return result>=1?true:false;		
+	}
 }

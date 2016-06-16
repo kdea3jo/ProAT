@@ -30,4 +30,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <delete id="removeMember">
     	delete from member where userid=#{id}
     </delete>
+    <select id="checkUserId" resultType="int">
+        select count(*) from member where userid=#{id}
+    </select>
 </mapper>

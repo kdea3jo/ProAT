@@ -33,4 +33,5 @@ public class AttendanceController {
 	public AttendanceVo getSelectDayInfo(Date date, Principal principal){
 		return service.getSelectDayInfo(date,principal.getName());
 	}
+
 }

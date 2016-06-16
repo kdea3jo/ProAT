@@ -36,7 +36,27 @@
 			autoclose : true,
 			todayHighlight : true
 		});
+		
 		$('#datepicker .input-date').datepicker('setDate', 'today');
+		
+		if($("#uesrid").val() != ""){
+            $("#uesrid").keyup();
+        };
+		
+		$('#userid').keyup(function(){
+			
+			 $.post("idcheck"
+					,{"id" : $('#userid').val()}
+			 		,function(data){
+			 		if(data){
+			 			$('#duplicateErr').text('중복된 아이디가 존재합니다.');	
+			 			$('#join_btn').attr('disabled',true);
+			 		}else{
+			 			$('#duplicateErr').text('');
+			 			$('#join_btn').attr('disabled',false);
+			 		}
+			 });
+		});
 	});
 	
 	function formcheck(){
@@ -61,8 +81,9 @@
 				<div class="control-group">
 					<label class="control-label" for="userid">아이디</label>
 					<div class="controls">
-						<form:input path="userid" cssClass="form-control input-lg typeahead tt-query" placeholder="유효한 이메일을 입력하세요."/>
+						<form:input path="userid" id="userid" cssClass="form-control input-lg typeahead tt-query" placeholder="유효한 이메일을 입력하세요."/>
 						<form:errors path="userid" cssClass="text-danger"/>
+						<p class="text-danger" id="duplicateErr"></p>
 					</div>
 				</div>
 
@@ -103,7 +124,7 @@
 				<div class="control-group">
 					<!-- Button -->
 					<div class="controls text-right">
-						<form:button class="btn btn-primary" type="button" onclick="formcheck()">가입하기</form:button>
+						<form:button class="btn btn-primary" type="button" id="join_btn" onclick="formcheck()">가입하기</form:button>
 					</div>
 				</div>
 			</fieldset>

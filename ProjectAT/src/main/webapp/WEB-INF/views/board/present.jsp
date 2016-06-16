@@ -123,8 +123,6 @@
 	#line {border-bottom: gray 1px solid;padding-bottom: 5px;} 
 	th{background-color: #eee;text-align: center;font-size: 17px}
 	.fc-widget-header {background-color: #fff;}
-	img {margin-top: 10px;}
-	
 </style>
 <img width="100%" src="<c:url value="/resources/images/image/att.png"/>" alt="출결현황 대표">
 <div class="table-responsive">

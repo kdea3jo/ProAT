@@ -40,6 +40,7 @@
 </script>
 
 <form:form commandName="subjectVo" action="modify" method="post">
+<form:input path="num" type="hidden"/>
 <div class="writeFormArea">
 	<table>
 		<tr id="subject_title">
@@ -107,7 +108,9 @@
 			</td>
 		</tr>
 	</table>
-	<button type="submit">개설</button>
-	<button type="button" onclick="location.href='list?state=1'">목록</button>
+	<p class="text-right" style="margin-top: 20px">
+		<button type="submit" class="btn btn-btn-secondary">개설</button>
+		<button type="button" class="btn btn-btn-secondary" onclick="location.href='list?state=1'">목록</button>
+	</p>
 </div>
 </form:form>

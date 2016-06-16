@@ -19,4 +19,6 @@ public interface AttendanceDao {
 	public SubjectVo getSubjectInfo(@Param("userid") String userid);
 
 	public AttendanceVo getSelectDayInfo(@Param("date")Date date, @Param("userid") String userid);
+
+	public int setAtdException(@Param("date")Date date, @Param("userid") String userid);
 }

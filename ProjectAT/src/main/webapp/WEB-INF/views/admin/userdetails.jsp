@@ -1,45 +1,90 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <script src='<c:url value="/resources/fullcalendar/lang/ko.js"></c:url>'></script>
-<script src='<c:url value="/resources/fullcalendar/lib/moment.min.js"></c:url>'></script>
-<script src='<c:url value="/resources/fullcalendar/fullcalendar.min.js"></c:url>'></script>
+<script
+	src='<c:url value="/resources/fullcalendar/lib/moment.min.js"></c:url>'></script>
+<script
+	src='<c:url value="/resources/fullcalendar/fullcalendar.min.js"></c:url>'></script>
 <script src='<c:url value="/resources/fullcalendar/lang/ko.js"></c:url>'></script>
-
 <script>
+
 	$(function() {
 		var currDate = $('#calendar').fullCalendar('getDate');
 		$('#calendar').fullCalendar({
-			lang: 'ko',	// ¾ğ¾î ¼±ÅÃ
+			lang: 'ko',	// ì–¸ì–´ ì„ íƒ
 			header: {left:"title", right:"today prev,next"},
-			defaultDate: currDate, 	// ±âº» ¼±ÅÃ ³¯Â¥
+			defaultDate: currDate, 	// ê¸°ë³¸ ì„ íƒ ë‚ ì§œ
 			eventLimit: true,
-			dayClick: function(date, jsEvent, view) {	// ³¯Â¥ Å¬¸¯
-				
-		        alert('Clicked on: ' + date.format());
-				
-		    },	     
+			businessHours: true,
+			eventClick: function(calEvent, jsEvent, view) {
+		        var cdate = calEvent.id;
+				var checkDay = new Date(cdate);
+			    if (checkDay.getDay() == 6 || checkDay.getDay() == 0) {
+			    	bootbox.alert("ì£¼ë§ì€ ì¶œì„ì¼ì´ ì•„ë‹™ë‹ˆë‹¤.", function() {});
+			    }
+			    else{			    	
+					$.ajax({
+		                type:"post",
+		                url:"../admin/selectDayforadmin",
+		                data: {date:cdate,id:'${param.id}'},
+		                dataType:"json",
+		                success:function(obj){
+		                	var userin = obj.userin;
+		                	var userout = obj.userout;
+		                	bootbox.dialog({
+		                        title: cdate+" ì¶œê²° ì •ë³´",
+		                        message: "<div style=\"text-align:center;\"><strong>ì…ì‹¤ì‹œê°„</strong><p>"+userin+"</p>"+
+		                        "<strong>í‡´ì‹¤ì‹œê°„</strong><p>"+userout+"</p>"+
+		                        "</div>" ,
+		                        buttons: {
+		                        	danger: {
+		                        		label: "ê³µê²°",
+		                        		className: "btn-danger",
+		                        		callback: function() {
+		                        	 		atdHandler(cdate);
+		                        	    }
+		                        	},
+		                        	main: {
+		                        	      label: "í™•ì¸",
+		                        	      className: "btn-primary",
+		                        	}
+		                        } 
+		                    }
+		                );
+		                },
+		                error:function(xhr,status,error){
+		                    console.log('ì‹¤íŒ¨: '+error);
+		                },
+		                complete:function(data){
+		                    
+		                }
+		                
+		            }); 
+				}
+
+		    },
 			events: [
 			<c:forEach var="items" items="${requestScope.attList}" varStatus="status">
 				{
+					id : '${items.adate}',
 					title: '${items.statue}',
 					start: '${items.adate}'
 					<c:choose>
-						<c:when test="${items.statue=='°á¼®'}">,color : '#FB5175'</c:when>
-						<c:when test="${items.statue=='Áö°¢'||items.statue=='Á¶Åğ'||items.statue=='¿ÜÃâ'}">,color : '#dddddd'</c:when>
+						<c:when test="${items.statue=='ê²°ì„'}">,color : '#FB5175'</c:when>
+						<c:when test="${items.statue=='ì§€ê°'||items.statue=='ì¡°í‡´'||items.statue=='ì™¸ì¶œ'}">,color : '#dddddd'</c:when>
 						<c:otherwise>,color : '#337AB7' </c:otherwise>
 					</c:choose>
 				},
 			</c:forEach>
-			]   
-		});
+			]
+        });
 		var totalDate = ${requestScope.subjectInfo.totalDate};
 		var attendDate = ${requestScope.attendDate};
 		var absenceDate = ${requestScope.absenceDate};
-		graph(attendDate,absenceDate,totalDate); // Ãâ¼®ÀÏ¼ö, °á¼®ÀÏ¼ö, ÃÑÀÏ¼ö
+		graph(attendDate,absenceDate,totalDate); // ì¶œì„ì¼ìˆ˜, ê²°ì„ì¼ìˆ˜, ì´ì¼ìˆ˜
 		
 	});
 	
@@ -47,89 +92,219 @@
 		var arry =  [(parseInt(g1/g3*10000))/100, (parseInt(g2/g3*10000))/100, (parseInt((g3-(g1+g2))/g3*10000))/100];
 		//parseInt
 		
-		var width = $("#graph").width(); // ÀüÃ¼ °¡·Î°ª (Áï, 100%ÀÇ ±æÀÌ)
-		//var size = $(".graph").size(); // ¸·´ë ±×·¡ÇÁ °¹¼ö
+		var width = $("#graph").width(); // ì „ì²´ ê°€ë¡œê°’ (ì¦‰, 100%ì˜ ê¸¸ì´)
+		//var size = $(".graph").size(); // ë§‰ëŒ€ ê·¸ë˜í”„ ê°¯ìˆ˜
 		
 		$(".graph").each(function(i){
 			var ttt = width * (arry[i]/100);
 			var lineheight = $(this).height();
-			$(this).animate({"width": ttt+"px"},1500);
+			$(this).animate({"width": (ttt-1)+"px"},1500);
 			//$(this).css("width",ttt);
 			$(this).find("em").text(arry[i]+"%").css("line-height", lineheight + "px"); 
 		})
 	}
+	
+	function atdHandler(cdate){
+		bootbox.prompt("ì‚¬ìœ ë¥¼ ì…ë ¥í•˜ì„¸ìš”.", function(result) {                
+			if(result){
+				$.ajax({
+			        type:"post",
+			        url:"atdexception",
+			        data:{date:cdate,id:'${param.id}'},
+			        dataType:"json",
+			        success:function(result){
+			            if(result) {
+			            	bootbox.alert('ê³µê²° ì²˜ë¦¬ ë˜ì—ˆìŠµë‹ˆë‹¤.', function(result) {
+			            		
+			            		location.href="userdetails?id="+'${param.id}';
+			            	});
+			            	
+			            }else{
+			            	alert("ê³µê²° ì²˜ë¦¬ ì‹¤íŒ¨");
+			            }
+			        },
+			        complete:function(data){            
+			        },
+			        error:function(xhr,status,error){
+			        }
+				});	
+			}else{
+			}
+		});
+	}
+
 </script>
 
 <style>
-
-	body {
+/* body {
 		margin: 40px 10px;
 		padding: 0;
 		font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
 		font-size: 14px;
-	}
+	} */
+#calendar {
+	max-width: 900px;
+	margin: 0 auto;
+}
 
-	#calendar {
-		max-width: 900px;
-		margin: 0 auto;
-	}
+#graph {
+	width: 100%;
+	height: 100px;
+	margin: 0px auto;
+	border-bottom: gray 1px solid;
+}
 
+#graph>p {
+	position: relative;
+	display: inline-block;
+	float: left;
+	font-weight: bold;
+	color: #fff;
+	font-size: 15px;
+	text-align: center;
+	margin-top: 10px
+}
+
+#graph>p strong {
+	position: absolute;
+	bottom: -20px;
+	display: block;
+	width: 100%;
+	text-align: center;
+	color: #777;
+}
+
+#graph>p em {
+	vertical-align: middle;
+	font-size: 20px;
+}
+
+#graph>p:nth-child(1) {
+	height: 30px;
+	background: #337AB7;
+}
+
+#graph>p:nth-child(2) {
+	height: 30px;
+	background: #FB5175;
+}
+
+#graph>p:nth-child(3) {
+	height: 30px;
+	background: #dddddd;
+}
+
+#graph>div {
+	font-size: 20px;
+}
+
+.calendar {
+	width: 100%;
+}
+
+#content {
+	width: 60%;
+	margin: 0px auto;
+}
+
+#line {
+	border-bottom: gray 1px solid;
+	padding-bottom: 5px;
+}
+
+th {
+	background-color: #eee;
+	text-align: center;
+	font-size: 17px
+}
+
+.fc-widget-header {
+	background-color: #fff;
+}
 </style>
-
-<style>
-	#graph {width: 100%;height:100px;margin: 0px auto;border-bottom: gray 1px solid;}
-	#graph > p {position:relative;display:inline-block;float:left;font-weight:bold;color:#fff;font-size:15px;text-align: center;margin-top: 10px}
-	#graph > p strong {position:absolute;bottom:-20px;display:block;width:100%;text-align:center;color:#777;}
-	#graph > p em {vertical-align:middle;font-size:20px;}
-	#graph > p:nth-child(2) {height:30px;background:#337AB7;}
-	#graph > p:nth-child(3) {height:30px;background:#FB5175;}
-	#graph > p:nth-child(4) {height:30px;background:#dddddd;}
-	#graph > div {font-size: 20px;}
-	
-	.calendar {width: 100%;}
-	
-	#content {width: 52%; margin: 0px auto;}
-	#line {border-bottom: gray 1px solid;padding-bottom: 5px;} 
-	th{background-color: #eee;}
-	
-	
-</style>
-
 <div class="table-responsive">
-	<h4>ÇĞ»ı Á¤º¸</h4>
+<h4>í•™ìƒ ì •ë³´</h4>
 	<table class="table table-bordered" style="font-size: 15px">
 		<tr>
-			<th id="training_organ">ÀÌ¸§</th><td headers="training_organ">${memberVo.username}</</td>
-			<th id="training_term">»ı³â¿ùÀÏ</th><td headers="training_term"><fmt:formatDate value='${memberVo.birthday}' pattern='yyyy-MM-dd'/></td>
+			<th id="training_organ">ì´ë¦„</th>
+			<td headers="training_organ">${memberVo.username}</td>
+			<th id="training_term">ìƒë…„ì›”ì¼</th>
+			<td headers="training_term">
+				<fmt:formatDate	value='${memberVo.birthday}' pattern='yyyy-MM-dd' />
+			</td>
 		</tr>
 		<tr>
-			<th id="training_title">¿¬¶ôÃ³</th><td headers="training_title">${memberVo.phone}</td>
-			<th id="attendance_term">ÀÌ¸ŞÀÏ</th><td headers="attendance_term">${memberVo.userid}</td>
+			<th id="training_title">ì—°ë½ì²˜</th>
+			<td headers="training_title">${memberVo.phone}</td>
+			<th id="attendance_term">ì´ë©”ì¼</th>
+			<td headers="attendance_term">
+				${memberVo.userid}
+			</td>
 		</tr>
 	</table>
-</div>	
-<div id="line"></div>
-<div class="table-responsive">
-	<h4>°­ÁÂ Á¤º¸</h4>
+<div id="line"></div>	
+	<h4>ìˆ˜ê°• ì •ë³´</h4>
 	<table class="table table-bordered" style="font-size: 15px">
 		<tr>
-			<th id="training_organ">°­ÁÂ¸í</th><td headers="training_organ">${requestScope.subjectInfo.classname}</</td>
-			<th id="training_term">ÁøÇà ±â°£</th><td headers="training_term"><fmt:formatDate value='${requestScope.subjectInfo.startdate}' pattern='yyyy-MM-dd'/>~<fmt:formatDate value='${requestScope.subjectInfo.enddate}' pattern='yyyy-MM-dd'/></td>
+			<th id="training_organ">ìˆ˜ê°• ê¸°ê´€ëª…</th>
+			<td headers="training_organ">í•œêµ­ë””ì§€í„¸ê¸°ì—…í˜‘íšŒ</td>
+			<th id="training_term">ìˆ˜ê°• ê¸°ê°„</th>
+			<td headers="training_term"><fmt:formatDate
+					value='${requestScope.subjectInfo.startdate}' pattern='yyyy-MM-dd' />~<fmt:formatDate
+					value='${requestScope.subjectInfo.enddate}' pattern='yyyy-MM-dd' /></td>
 		</tr>
 		<tr>
-			<th id="training_title">ÀÎ¿ø</th><td headers="training_title">${requestScope.subjectInfo.total}</td>
-			<th id="attendance_term">¿î¿µ ½Ã°£</th><td headers="attendance_term">${requestScope.subjectInfo.starttime}~${requestScope.subjectInfo.endtime}</td>
+			<th id="training_title">ìˆ˜ê°• ê³¼ì •ëª…</th>
+			<td headers="training_title">${requestScope.subjectInfo.classname}</td>
+			<th id="attendance_term">ì¶œì„ ê¸°ê°„</th>
+			<td headers="attendance_term"><fmt:formatDate
+					value='${requestScope.subjectInfo.startdate}' pattern='yyyy-MM-dd' />~<fmt:formatDate
+					value='${requestScope.subjectInfo.enddate}' pattern='yyyy-MM-dd' /></td>
 		</tr>
 	</table>
-</div>	
-<div id="line"></div>
-<h4>Ãâ°á ÇöÈ²</h4>
-<div id="graph" >
-	<div>[<strong>${requestScope.subjectInfo.totalDate}</strong>ÀÏ Áß <strong>${requestScope.attendDate}</strong>ÀÏ Ãâ¼®, <strong>${requestScope.absenceDate}</strong>ÀÏ °á¼®]</div>
-	<p class="graph01 graph"><em></em><strong>Ãâ¼®</strong></p>
-	<p class="graph02 graph"><em></em><strong>°á¼®</strong></p>
-	<p class="graph03 graph"><em></em><strong></strong></p>
 </div>
-	
-<h4>Ãâ°á ÇöÈ² ´Ş·Â</h4><br>
-<div id='calendar' ></div>
+<div id="line"></div>
+<h4>ì¶œê²° í˜„í™©</h4>
+<div id="today">
+	<table class="table table-bordered text-center"
+		style="width: 80%; margin: 0px auto">
+		<thead>
+			<tr>
+				<th colspan="2">ì˜¤ëŠ˜ì˜ ì¶œê²° í˜„í™©</th>
+			</tr>
+			<tr>
+				<th>ì…ì‹¤</th>
+				<th>í‡´ì‹¤</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>${requestScope.todayuserin}</td>
+				<td>${requestScope.todayuserout}</td>
+			</tr>
+			<tr>
+				<td colspan="2"><strong>${requestScope.subjectInfo.totalDate}</strong>ì¼
+					ì¤‘ <strong>${requestScope.attendDate}</strong>ì¼ ì¶œì„, <strong>${requestScope.absenceDate}</strong>ì¼
+					ê²°ì„</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<br>
+<div id="graph">
+	<p class="graph01 graph">
+		<em></em><strong>ì¶œì„</strong>
+	</p>
+	<p class="graph02 graph">
+		<em></em><strong>ê²°ì„</strong>
+	</p>
+	<p class="graph03 graph">
+		<em></em><strong></strong>
+	</p>
+</div>
+
+<h4>ì¶œê²° í˜„í™© ë‹¬ë ¥</h4>
+<br>
+<div id='calendar'>
+	<p>ë‚ ì§œë¥¼ í´ë¦­í•˜ë©´ í•´ë‹¹ ë‚ ì§œì˜ ì…,í‡´ì‹¤ ì‹œê°„ì„ ì•Œ ìˆ˜ ìˆìŠµë‹ˆë‹¤.</p>
+</div>

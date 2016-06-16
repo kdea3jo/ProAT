@@ -1,5 +1,7 @@
 package org.teamAT.service;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -37,11 +39,9 @@ public class SubjectService {
 		*/
 		SubjectDao dao=sqlSessionTemplate.getMapper(SubjectDao.class);	
 		int result=dao.getApplicantMember(id);
+		System.out.println(result);
 		if(result>=1) return 0;
-		
-		dao.applySubject(num,id);
-		result=dao.getTotalApplicantCount();
-		request.getServletContext().setAttribute("cnt", result);
+		result=dao.applySubject(num,id);
 		return result >= 1 ? result:0;
 	}
 
@@ -60,6 +60,7 @@ public class SubjectService {
 		String uri=request.getRequestURI();
 		SubjectVo vo=dao.getSubject(num);
 		
+		/*게시판 줄바꿈 처리를 위한 문자열 교체작업*/
 		String changeStr=null;
 		if(uri.contains("modifyform")){
 			changeStr=vo.getContents().replaceAll("<br>", "\n");
@@ -69,6 +70,10 @@ public class SubjectService {
 			request.setAttribute("count",count);
 		}
 		vo.setContents(changeStr);
+			
+		vo.setStarttime(stringToTimeType(vo.getStarttime()));
+		vo.setEndtime(stringToTimeType(vo.getEndtime()));
+				
 		request.setAttribute("subjectVo",vo);
 	}
 
@@ -78,10 +83,20 @@ public class SubjectService {
 		SubjectDao subjectDao=sqlSessionTemplate.getMapper(SubjectDao.class);	
 		subjectDao.removeSubject(num);
 	}
+	
+	public String stringToTimeType(String str){
+		StringBuffer sb=new StringBuffer(str);
+		if(str.length()==4){
+			sb.insert(2, ":");
+		}else{
+			sb.insert(0, "0");
+			sb.insert(2, ":");
+		}
+		return sb.toString();
+	}
 
-	public int getTotalApplicantCount() {
-		SubjectDao dao=sqlSessionTemplate.getMapper(SubjectDao.class);	
-		int cnt=dao.getTotalApplicantCount();
-		return cnt;
+	public void modifySubject(SubjectVo vo) {
+		SubjectDao dao=sqlSessionTemplate.getMapper(SubjectDao.class);
+		dao.updateSubject(vo);
 	}
 }

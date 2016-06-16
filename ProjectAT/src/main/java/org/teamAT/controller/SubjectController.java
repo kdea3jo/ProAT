@@ -50,7 +50,7 @@ public class SubjectController {
 			return "/subject/create";			
 		}
 		ss.setSubject(vo);
-		return "/subject/create";
+		return "/subject/list?state=1";
 	}
 	@RequestMapping(value="list")
 	private String viewSubjectList(@RequestParam int state,Model model){
@@ -62,6 +62,14 @@ public class SubjectController {
 	@RequestMapping("apply")
 	private int applySubject(@RequestParam int num,Principal principal,HttpServletRequest request){
 		return ss.applySubject(num,principal.getName(),request);
+	}
+	@RequestMapping(value="modify", method=RequestMethod.POST)
+	private String modifySubject(@Valid SubjectVo vo,BindingResult result){
+		if (result.hasErrors()) {
+			return "/subject/modify";			
+		}
+		ss.modifySubject(vo);
+		return "/subject/list";
 	}
 	@RequestMapping("cancel")
 	private String applySubject(Principal principal){

@@ -2,6 +2,7 @@ package org.teamAT.controller;
 
 import java.security.Principal;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,5 +34,11 @@ public class JobController {
 		vo.setUserid(principal.getName());
 		js.writeJobInfo(vo);
 		return "/job/write";
+	}
+	
+	@RequestMapping("list")
+	private String viewJobList(Model model){
+		model.addAttribute("jobinfoVo", js.getJobList());
+		return "/job/list";
 	}
 }

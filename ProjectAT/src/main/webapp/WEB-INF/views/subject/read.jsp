@@ -3,6 +3,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <style type="text/css">
 .writeFormArea table {width: 100%}
 .writeFormArea th { border: gray solid 1px;padding: 10px; text-align: center; background-color: #eee;}
@@ -15,14 +16,20 @@
 <script type="text/javascript">
 
 function deleteSubject() {
-	if(!confirm("정말로 강좌를 삭제하시겠습니까?")) return;
-	location.href="delete?num="+"${subjectVo.num}";
+	bootbox.confirm({ 
+		 message: "정말로 강좌를 삭제하시겠습니까?", 
+		 callback: function(result){
+			 if(!result) return;
+			 location.href="delete?num="+"${subjectVo.num}";
+		 }
+	});	
 }
+
 </script>
 
 <div class="writeFormArea">
 	<table>
-		<tr><td colspan="4" id="subject_title"><h1>${subjectVo.classname}</h1></td></tr>
+		<tr><td colspan="4" id="subject_title"><h1><img src="<c:url value="/resources/images/icon/book.png"/>">&nbsp${subjectVo.classname}</h1></td></tr>
 		<tr>
 			<th>기간</th>
 			<td>

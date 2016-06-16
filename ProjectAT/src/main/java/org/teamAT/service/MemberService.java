@@ -105,6 +105,13 @@ public class MemberService{
 		MemberDao dao=sqlSessionTemplate.getMapper(MemberDao.class);	
 		dao.backupRemoveMember(id); /*탈퇴전 사용자 작성 글을 백업*/
 		int result=dao.removeMember(id);
-		return result==1 ? 1:2;
+		System.out.println(result);
+		return result>=1 ? 1:2;
+	}
+
+	public boolean isDuplicateId(String id) {
+		MemberDao dao=sqlSessionTemplate.getMapper(MemberDao.class);
+		int result=dao.checkUserId(id);
+		return result>=1?true:false;
 	}
 }

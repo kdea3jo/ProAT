@@ -43,12 +43,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="getStudentList" resultType="org.teamAT.vo.MemberVo">
 		SELECT USERID FROM MEMBER WHERE GRADE='student'
 	</select>
+	
 	<insert id="insert_bepresent">
 		INSERT INTO BEPRESENT(USERID, ADATE,USERIN ,USEROUT,ATEXCEPTION) VALUES(#{userid},TO_DATE(SYSDATE,'YY/MM/DD'),-1,-1,0)
 	</insert>
 	
 	<select id="getSelectDayInfo" resultType="org.teamAT.vo.AttendanceVo">
-		SELECT USERIN, USEROUT FROM BEPRESENT
-		WHERE ADATE=#{date} and userid=#{userid}
+		SELECT USERIN,USEROUT FROM BEPRESENT
+		WHERE ADATE between #{date} and #{date}+1 and userid=#{userid}
 	</select>
+	
+	<update id="setAtdException">
+		update bepresent set atexception=1 where ADATE between #{date} and #{date}+1 and userid=#{userid}
+	</update>
 </mapper>

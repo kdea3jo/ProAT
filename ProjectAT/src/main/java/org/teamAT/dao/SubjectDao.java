@@ -15,5 +15,5 @@ public interface SubjectDao {
 	public SubjectVo getSubject(int num);
 	public int getApplicantCount(int num);
 	public int removeSubject(int num);
-	public int getTotalApplicantCount();
+	public void updateSubject(SubjectVo vo);
 }

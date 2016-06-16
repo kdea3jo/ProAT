@@ -30,4 +30,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="removeSubject">
 		delete from educlass where num=#{num}
 	</delete>
+	<update id="updateSubject" parameterType="org.teamAT.vo.SubjectVo">
+		update educlass set classname=#{classname}, startdate=#{startdate}, enddate=#{enddate}, starttime=#{starttime}, endtime=#{endtime}, total=#{total}, contents=#{contents} where num=#{num}
+	</update>
 </mapper>

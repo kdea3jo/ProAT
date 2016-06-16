@@ -14,4 +14,5 @@ public interface MemberDao {
 	public int resetMember(MemberVo vo);
 	public int backupRemoveMember(String id);
 	public int removeMember(String id);
+	public int checkUserId(String id);
 }
