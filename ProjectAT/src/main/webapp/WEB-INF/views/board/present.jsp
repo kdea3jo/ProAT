@@ -16,12 +16,51 @@
 			header: {left:"title", right:"today prev,next"},
 			defaultDate: currDate, 	// 기본 선택 날짜
 			eventLimit: true,
-			dayClick: function(date, jsEvent, view) {	// 날짜 클릭
-		        alert('Clicked on: ' + date.format());
-		    },	     
+			businessHours: true,
+			eventClick: function(calEvent, jsEvent, view) {
+		        var cdate = calEvent.id;
+				var checkDay = new Date(cdate);
+			    if (checkDay.getDay() == 6 || checkDay.getDay() == 0) {
+			    	bootbox.alert("주말은 출석일이 아닙니다.", function() {});
+			    }
+			    else{
+					$.ajax({
+		                type:"post",
+		                url:"../attendance/selectDay",
+		                data: {date:cdate},
+		                dataType:"json",
+		                success:function(obj){
+		                	var userin = obj.userin;
+		                	var userout = obj.userout;
+		                	bootbox.dialog({
+		                        title: cdate+" 출결 정보",
+		                        message: "<div style=\"text-align:center;\"><strong>입실시간</strong><p>"+userin+"</p>"+
+		                        "<strong>퇴실시간</strong><p>"+userout+"</p>"+
+		                        "</div>" ,
+		                        buttons: {
+		                            success: {
+		                                label: "확인",
+		                                className: "btn-success",
+		                            }
+		                        }
+		                    }
+		                );
+		                },
+		                error:function(xhr,status,error){
+		                    console.log('실패: '+error);
+		                },
+		                complete:function(data){
+		                    
+		                }
+		                
+		            }); 
+				}
+
+		    },
 			events: [
 			<c:forEach var="items" items="${requestScope.attList}" varStatus="status">
 				{
+					id : '${items.adate}',
 					title: '${items.statue}',
 					start: '${items.adate}'
 					<c:choose>
@@ -31,8 +70,8 @@
 					</c:choose>
 				},
 			</c:forEach>
-			]   
-		});
+			]
+        });
 		var totalDate = ${requestScope.subjectInfo.totalDate};
 		var attendDate = ${requestScope.attendDate};
 		var absenceDate = ${requestScope.absenceDate};
@@ -50,7 +89,7 @@
 		$(".graph").each(function(i){
 			var ttt = width * (arry[i]/100);
 			var lineheight = $(this).height();
-			$(this).animate({"width": ttt+"px"},1500);
+			$(this).animate({"width": (ttt-1)+"px"},1500);
 			//$(this).css("width",ttt);
 			$(this).find("em").text(arry[i]+"%").css("line-height", lineheight + "px"); 
 		})
@@ -59,22 +98,17 @@
 </script>
 
 <style>
-
-	body {
+	/* body {
 		margin: 40px 10px;
 		padding: 0;
 		font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
 		font-size: 14px;
-	}
-
+	} */
 	#calendar {
 		max-width: 900px;
 		margin: 0 auto;
 	}
 
-</style>
-
-<style>
 	#graph {width: 100%;height:100px;margin: 0px auto;border-bottom: gray 1px solid;}
 	#graph > p {position:relative;display:inline-block;float:left;font-weight:bold;color:#fff;font-size:15px;text-align: center;margin-top: 10px}
 	#graph > p strong {position:absolute;bottom:-20px;display:block;width:100%;text-align:center;color:#777;}
@@ -85,24 +119,23 @@
 	#graph > div {font-size: 20px;}
 	
 	.calendar {width: 100%;}
-	
-	#content {width: 52%; margin: 0px auto;}
+	#content {width: 60%; margin: 0px auto;}
 	#line {border-bottom: gray 1px solid;padding-bottom: 5px;} 
 	th{background-color: #eee;text-align: center;font-size: 17px}
-	
+	.fc-widget-header {background-color: #fff;}
+	img {margin-top: 10px;}
 	
 </style>
-<h1>출결현황</h1>
-<div id="line"></div>
+<img width="100%" src="<c:url value="/resources/images/image/att.png"/>" alt="출결현황 대표">
 <div class="table-responsive">
-	<h4>훈련 정보</h4>
+	<h4>수강 정보</h4>
 	<table class="table table-bordered" style="font-size: 15px">
 		<tr>
-			<th id="training_organ">훈련 기관명</th><td headers="training_organ">한국디지털기업협회</td>
-			<th id="training_term">훈련 기간</th><td headers="training_term"><fmt:formatDate value='${requestScope.subjectInfo.startdate}' pattern='yyyy-MM-dd'/>~<fmt:formatDate value='${requestScope.subjectInfo.enddate}' pattern='yyyy-MM-dd'/></td>
+			<th id="training_organ">수강 기관명</th><td headers="training_organ">한국디지털기업협회</td>
+			<th id="training_term">수강 기간</th><td headers="training_term"><fmt:formatDate value='${requestScope.subjectInfo.startdate}' pattern='yyyy-MM-dd'/>~<fmt:formatDate value='${requestScope.subjectInfo.enddate}' pattern='yyyy-MM-dd'/></td>
 		</tr>
 		<tr>
-			<th id="training_title">훈련 과정명</th><td headers="training_title">${requestScope.subjectInfo.classname}</td>
+			<th id="training_title">수강 과정명</th><td headers="training_title">${requestScope.subjectInfo.classname}</td>
 			<th id="attendance_term">출석 기간</th><td headers="attendance_term"><fmt:formatDate value='${requestScope.subjectInfo.startdate}' pattern='yyyy-MM-dd'/>~<fmt:formatDate value='${requestScope.subjectInfo.enddate}' pattern='yyyy-MM-dd'/></td>
 		</tr>
 	</table>
@@ -127,4 +160,4 @@
 </div>
 	
 <h4>출결 현황 달력</h4><br>
-<div id='calendar' ></div>
+<div id='calendar' ><p>날짜를 클릭하면 해당 날짜의 입,퇴실 시간을 알 수 있습니다.</p></div>

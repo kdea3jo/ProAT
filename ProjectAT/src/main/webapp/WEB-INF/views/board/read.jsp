@@ -16,7 +16,7 @@ $(function() {
 	});
 	/* 삭제 버튼 */
 	$("#delete").on("click", function() {
-		if (confirm("삭제하시겠습니까?")) {
+		if (bootbox.confirm("삭제하시겠습니까?", function() {})) {
 			var data = ${requestScope.content.num};
 			var url = "../${requestScope.boardname}/delete";
 			$.ajax({
@@ -26,10 +26,10 @@ $(function() {
 				dataType : "json",
 				success : function(obj) {
 					if (obj) {
-						alert("삭제되었습니다.");
+						bootbox.alert("삭제되었습니다.", function() {});
 						location.href = "list";
 					}else if(!obj){
-						alert("다시시도");
+						bootbox.alert("다시시도하세요.", function() {});
 					}
 				}
 			});

@@ -13,10 +13,10 @@
 		/* 등록 버튼 */
 		$("#ok").on("click", function() {
 			if($("input[name=title]").val()==null||$("input[name=title]").val()==""){
-				alert("제목을 입력하세요.");
+				bootbox.alert("제목을 입력하세요.", function() {});
 				$("input[name=title]").focus();
 			}else if($("textarea[name=contents]").val()==null||$("textarea[name=contents]").val()==""){
-				alert("내용을 입력하세요.");
+				bootbox.alert("내용을 입력하세요.", function() {});
 				$("textarea[name=contents]").focus();
 			}else{
 				var data=$("#inputForm").serialize();

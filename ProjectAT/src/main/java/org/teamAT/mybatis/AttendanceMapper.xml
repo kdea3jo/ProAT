@@ -15,7 +15,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="getAttendList" resultType="org.teamAT.vo.AttendanceVo">
 	select * from(
 			  SELECT UserID, ADATE, userin, userout, ATEXCEPTION, 
-			    CASE  WHEN (USERIN=-1 or USEROUT=-1) THEN '결석'
+			    CASE  WHEN (ATEXCEPTION!=0) THEN '출석'
+               		  WHEN (USERIN=-1 or USEROUT=-1) THEN '결석'
 			          WHEN USERIN>(SELECT starttime FROM(
 			                          SELECT * 
 			                          FROM member m join EDUCLASS e
@@ -45,4 +46,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<insert id="insert_bepresent">
 		INSERT INTO BEPRESENT(USERID, ADATE,USERIN ,USEROUT,ATEXCEPTION) VALUES(#{userid},TO_DATE(SYSDATE,'YY/MM/DD'),-1,-1,0)
 	</insert>
+	
+	<select id="getSelectDayInfo" resultType="org.teamAT.vo.AttendanceVo">
+		SELECT USERIN, USEROUT FROM BEPRESENT
+		WHERE ADATE=#{date} and userid=#{userid}
+	</select>
 </mapper>

@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
+import javax.management.relation.Relation;
 import javax.servlet.http.HttpServletRequest;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -51,6 +52,14 @@ public class AttendanceServiece {
 		request.setAttribute("todayuserin", replace(list.get(0).getUserin()));
 		request.setAttribute("todayuserout", replace(list.get(0).getUserout()));
 	}
+	public AttendanceVo getSelectDayInfo(Date date, String userid) {
+		AttendanceDao dao = sqlSessionTemplate.getMapper(AttendanceDao.class);
+		AttendanceVo attendanceVo= dao.getSelectDayInfo(date, userid);
+		attendanceVo.setUserin(replace(attendanceVo.getUserin()));
+		attendanceVo.setUserout(replace(attendanceVo.getUserout()));
+		return attendanceVo;		
+	}
+	
 	private String replace(String time){
 		String str = time;
 		if(str.equals("-1")){
@@ -69,6 +78,7 @@ public class AttendanceServiece {
 			dao.insert_bepresent(student.get(i).getUserid());
 		}
     }
+	
 
 	
 

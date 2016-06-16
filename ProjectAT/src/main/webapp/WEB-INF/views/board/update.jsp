@@ -5,7 +5,7 @@
 	var result = ${requestScope.isWriter=='yes'};
 	if(!result){
 		location.href="read?num=${requestScope.content.num}";
-		alert("권한이 없습니다.");
+		bootbox.alert("권한이 없습니다.", function() {});
 	}
 	$(function() {
 		
@@ -25,7 +25,7 @@
                 	if(obj){
                     	location.href="read?num=${requestScope.content.num}";
                 	} else if(!obj){
-                		alert("수정 실패, 다시 해주세요.")
+        				bootbox.alert("수정 실패, 다시 해주세요.", function() {});
                 	}
                 },
                 error:function(xhr,status,error){

@@ -1,5 +1,6 @@
 package org.teamAT.dao;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -16,4 +17,6 @@ public interface AttendanceDao {
 	public List<MemberVo> getStudentList();
 
 	public SubjectVo getSubjectInfo(@Param("userid") String userid);
+
+	public AttendanceVo getSelectDayInfo(@Param("date")Date date, @Param("userid") String userid);
 }

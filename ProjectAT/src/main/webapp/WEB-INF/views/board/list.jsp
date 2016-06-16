@@ -15,7 +15,7 @@
 				var type = $("#searchForm div select").val();
 				var keyword = $("#searchForm div input").val();
 				if(keyword==null||keyword==""){
-					alert("검색어를 입력하세요.")
+					bootbox.alert("검색어를 입력하세요.", function() {});
 					$("#searchForm div input").focus();
 				}else{
 					location.href="list?type="+type+"&keyword="+keyword;
