@@ -79,16 +79,16 @@
 	#graph > p {position:relative;display:inline-block;float:left;font-weight:bold;color:#fff;font-size:15px;text-align: center;margin-top: 10px}
 	#graph > p strong {position:absolute;bottom:-20px;display:block;width:100%;text-align:center;color:#777;}
 	#graph > p em {vertical-align:middle;font-size:20px;}
-	#graph > p:nth-child(2) {height:30px;background:#337AB7;}
-	#graph > p:nth-child(3) {height:30px;background:#FB5175;}
-	#graph > p:nth-child(4) {height:30px;background:#dddddd;}
+	#graph > p:nth-child(1) {height:30px;background:#337AB7;}
+	#graph > p:nth-child(2) {height:30px;background:#FB5175;}
+	#graph > p:nth-child(3) {height:30px;background:#dddddd;}
 	#graph > div {font-size: 20px;}
 	
 	.calendar {width: 100%;}
 	
 	#content {width: 52%; margin: 0px auto;}
 	#line {border-bottom: gray 1px solid;padding-bottom: 5px;} 
-	th{background-color: #eee;}
+	th{background-color: #eee;text-align: center;font-size: 17px}
 	
 	
 </style>
@@ -109,8 +109,18 @@
 </div>	
 <div id="line"></div>
 <h4>출결 현황</h4>
+<div id="today">
+	<table class="table table-bordered text-center" style="width:80%;margin: 0px auto">
+		<thead>
+		<tr><th colspan="2">오늘의 출결 현황</th></tr>
+		<tr><th>입실</th><th>퇴실</th></tr></thead>
+		<tbody><tr><td>${requestScope.todayuserin}</td><td>${requestScope.todayuserout}</td></tr>
+				<tr><td colspan="2"><strong>${requestScope.subjectInfo.totalDate}</strong>일 중 <strong>${requestScope.attendDate}</strong>일 출석, <strong>${requestScope.absenceDate}</strong>일 결석</td></tr>
+		</tbody>
+	</table>
+</div>
+<br>
 <div id="graph" >
-	<div>[<strong>${requestScope.subjectInfo.totalDate}</strong>일 중 <strong>${requestScope.attendDate}</strong>일 출석, <strong>${requestScope.absenceDate}</strong>일 결석]</div>
 	<p class="graph01 graph"><em></em><strong>출석</strong></p>
 	<p class="graph02 graph"><em></em><strong>결석</strong></p>
 	<p class="graph03 graph"><em></em><strong></strong></p>

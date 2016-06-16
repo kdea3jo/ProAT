@@ -1,5 +1,7 @@
 package org.teamAT.service;
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -45,6 +47,18 @@ public class AttendanceServiece {
 		request.setAttribute("absenceDate", absenceDate+zo);
 		
 		request.setAttribute("attList", list);
+		
+		request.setAttribute("todayuserin", replace(list.get(0).getUserin()));
+		request.setAttribute("todayuserout", replace(list.get(0).getUserout()));
+	}
+	private String replace(String time){
+		String str = time;
+		if(str.equals("-1")){
+			return "정보 없음";
+		}
+		while(str.length() < 4) str = "0" + str;
+		String result = str.substring(0, 2)+":"+str.substring(2,4);
+		return result;
 	}
 	
 	@org.springframework.scheduling.annotation.Scheduled(cron = "0 0 0 * * MON-FRI") // 0 0 9-17 * * MON-FRI : 주중 9시부터 17시까지

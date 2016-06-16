@@ -1,6 +1,8 @@
 package org.teamAT.controller;
 
 
+import java.security.Principal;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +28,8 @@ public class BoardController {
 		return "/board/"+getBoardName(request)+"/list";
 	}
 	@RequestMapping(value="*/read", method = RequestMethod.GET)
-	public String getContent(HttpServletRequest request){
-		service.getContent(request,getBoardName(request));
+	public String getContent(HttpServletRequest request, Principal principal){
+		service.getContent(request,getBoardName(request), principal);
 		request.setAttribute("boardname", getBoardName(request));
 		return "/board/"+getBoardName(request)+"/read";
 	}
@@ -41,15 +43,14 @@ public class BoardController {
 	@ResponseBody
 	@RequestMapping(value="*/insert", method=RequestMethod.POST)
 	public int insert(BoardVo board, HttpServletRequest request){
-		System.out.println(board.getUserid());
 		service.insert(board,getBoardName(request));
 		return service.getCurrentContent(board,getBoardName(request)).getNum();
 	}
 	
 	@RequestMapping(value="*/modify", method = RequestMethod.GET)
-	public String modify(HttpServletRequest request){
+	public String modify(HttpServletRequest request,Principal principal){
 		request.setAttribute("boardname", getBoardName(request));
-		service.getContent(request,getBoardName(request));
+		service.getContent(request,getBoardName(request),principal);
 		return "/board/"+getBoardName(request)+"/update";
 	}
 	

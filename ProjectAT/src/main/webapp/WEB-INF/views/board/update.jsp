@@ -2,7 +2,13 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <script src="https://code.jquery.com/jquery-2.2.2.min.js"></script>
 <script type="text/javascript">
+	var result = ${requestScope.isWriter=='yes'};
+	if(!result){
+		location.href="read?num=${requestScope.content.num}";
+		alert("권한이 없습니다.");
+	}
 	$(function() {
+		
 		/* 취소 */
 		$("#backtoread").on("click",function(){
 			location.href="read?num=${requestScope.content.num}";
@@ -48,7 +54,7 @@
 		</div>
 		<div class="form-group">
 			<label for="contents">내용</label> 
-			<textarea id="contents" name="content" class="form-control" rows="25">${requestScope.content.content}</textarea>
+			<textarea id="contents" name="contents" class="form-control" rows="25">${requestScope.content.contents}</textarea>
 		</div>
 		<div id="btnArea">
 			<button id="update" type="button" class="btn btn-success">수정</button>

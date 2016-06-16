@@ -36,7 +36,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			                          FROM member m join EDUCLASS e
 			                          on m.EDUCLASS = e.NUM
 			                        )where userid=#{userid}) THEN '조퇴'
-			          else '출석' end AS STATUE FROM BEPRESENT 
+			          else '출석' end AS STATUE FROM BEPRESENT ORDER BY ADATE DESC
 			)where userid=#{userid}
 	</select>
 	<select id="getStudentList" resultType="org.teamAT.vo.MemberVo">

@@ -38,7 +38,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
     
     <update id="update">
-    	UPDATE ${boardname} SET TITLE=#{board.title},CONTENT=#{board.contents} WHERE NUM=#{board.num}
+    	UPDATE ${boardname} SET TITLE=#{board.title},CONTENTS=#{board.contents} WHERE NUM=#{board.num}
     </update>
     
     <delete id="delete">

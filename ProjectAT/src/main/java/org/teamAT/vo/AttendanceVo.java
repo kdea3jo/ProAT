@@ -10,6 +10,7 @@ public class AttendanceVo {
 	private String userout;
 	private int atexception;
 	private String statue;
+	
 	public String getUserid() {
 		return userid;
 	}

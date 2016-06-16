@@ -1,5 +1,6 @@
 package org.teamAT.service;
 
+import java.security.Principal;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -52,16 +53,21 @@ public class BoardService {
 			request.setAttribute("pageNation", pagination);
 			request.setAttribute("boardList", dao.getList(page, boardname, search));
 			request.setAttribute("search", search);
+			
 	}
 
-	public void getContent(HttpServletRequest request, String boardName) {
+	public void getContent(HttpServletRequest request, String boardName, Principal principal) {
 		BoardDao dao=sqlSessionTemplate.getMapper(BoardDao.class);
 		int num = Integer.parseInt(request.getParameter("num"));
 		BoardVo content = dao.getContent(num, boardName);
 		dao.updateHit(content.getHit()+1,num,boardName);
-		
 		content.setHit(content.getHit()+1);
 		request.setAttribute("content", content);
+		if(content.getUserid().equals(principal.getName())){
+			request.setAttribute("isWriter", "yes");
+		}else{
+			request.setAttribute("isWriter", "no");
+		}
 		
 		String sPage = request.getParameter("pg");
 		int page=0;
