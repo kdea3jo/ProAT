@@ -30,7 +30,7 @@ public class SubjectService {
 		return dao.getSubjectList(state);	
 	}
 	
-	public int applySubject(int num, String id){
+	public int applySubject(int num, String id, HttpServletRequest request){
 		/*
 			0=현재 수간신청 중인 강좌가 존재함
 			1 이상 수강 신청 가능
@@ -41,7 +41,8 @@ public class SubjectService {
 		
 		dao.applySubject(num,id);
 		result=dao.getTotalApplicantCount();
-		return result >= 1 ? result:0 ;
+		request.getServletContext().setAttribute("cnt", result);
+		return result >= 1 ? result:0;
 	}
 
 	public SubjectVo getMyApplySubject(String id) {

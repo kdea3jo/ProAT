@@ -23,9 +23,7 @@ $(document).ready(function(){
 	            	alert('이미 수강 신청 중인 강좌가 존재합니다.');
 	            }else if(result>=1) {
 	            	alert('수강 신청이 완료되었습니다.\n'+
-	            		  '신청 현황 및 취소는 [마이페이지]에서 가능합니다.');
-	            	$('#admin_cnt').text(result);
-	            	
+	            		  '신청 현황 및 취소는 [마이페이지]에서 가능합니다.');	            	
 	            }else alert("알 수 없는 에러 발생!");
 	        },
 	        complete:function(data){            

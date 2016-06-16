@@ -63,7 +63,7 @@ public class MemberController {
 		String username=ms.getUserName(principal.getName());
 		int cnt=ss.getTotalApplicantCount();
 		request.getSession().setAttribute("name", username);
-		request.getSession().setAttribute("cnt", cnt);
+		request.getServletContext().setAttribute("cnt", cnt);
 		return "redirect:/main";
 	}
 

@@ -44,7 +44,7 @@
 							<strong>&nbsp${sessionScope.name}</strong>님 반갑습니다.
 					</a></li>
 					<sec:authorize access="hasAuthority('admin')">
-						<li><a href="/ProjectAT/admin/studentView">관리자 <span id="admin_cnt" class="badge">${sessionScope.cnt}</span></a></li>
+						<li><a href="/ProjectAT/admin/studentView">관리자 <span id="admin_cnt" class="badge">${applicationScope.cnt}</span></a></li>
 					</sec:authorize>
 					<li><a href="/ProjectAT/member/check_pw">마이페이지</a></li>
 					<li><a href="/ProjectAT/logout">로그아웃</a></li>

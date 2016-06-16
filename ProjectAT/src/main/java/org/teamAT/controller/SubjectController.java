@@ -60,8 +60,8 @@ public class SubjectController {
 	}
 	@ResponseBody
 	@RequestMapping("apply")
-	private int applySubject(@RequestParam int num,Principal principal){
-		return ss.applySubject(num,principal.getName());
+	private int applySubject(@RequestParam int num,Principal principal,HttpServletRequest request){
+		return ss.applySubject(num,principal.getName(),request);
 	}
 	@RequestMapping("cancel")
 	private String applySubject(Principal principal){
