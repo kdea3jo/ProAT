@@ -6,10 +6,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.teamAT.service.JobService;
 import org.teamAT.vo.JobInfoVo;
 
@@ -37,8 +39,14 @@ public class JobController {
 	}
 	
 	@RequestMapping("list")
-	private String viewJobList(Model model){
+	private String viewJobList(Model model, HttpServletRequest request, Authentication authentication){
 		model.addAttribute("jobinfoVo", js.getJobList());
 		return "/job/list";
+	}
+	
+	@RequestMapping("read")
+	private String viewRead(@RequestParam int num, HttpServletRequest request){
+		request.setAttribute("jobinfoVo", js.getJobInfo(num));
+		return "/job/read";
 	}
 }

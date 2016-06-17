@@ -23,4 +23,14 @@ public class JobService {
 		List<JobInfoVo> list=dao.getJobList();
 		return list;
 	}
+	public JobInfoVo getJobInfo(int num) {
+		JobDao dao=sqlSessionTemplate.getMapper(JobDao.class);
+		JobInfoVo vo=dao.getJobInfo(num);
+		
+		/*게시판 줄바꿈 처리를 위한 문자열 교체작업*/
+		String changeStr=vo.getContents().replaceAll("\n", "<br>");
+		vo.setContents(changeStr);
+		
+		return vo;
+	}
 }

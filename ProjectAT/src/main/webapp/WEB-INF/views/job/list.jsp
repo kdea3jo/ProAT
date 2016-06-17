@@ -55,10 +55,10 @@ $(document).ready(function(){
 		<thead>
 			<tr>
 				<th class="col-xs-1 text-center">번호</th>
-				<th class="col-xs-4 text-center">제목</th>
-				<th class="col-xs-3 text-center">회사명</th>
-				<th class="col-xs-1 text-center">고용인원</th>
-				<th class="col-xs-1 text-center">작성일</th>
+				<th class="col-xs-3 text-center">제목</th>
+				<th class="col-xs-2 text-center">회사명</th>
+				<th class="col-xs-1 text-center">채용인원</th>
+				<th class="col-xs-3 text-center">채용기간</th>
 			</tr>
 		</thead>
 		
@@ -69,7 +69,7 @@ $(document).ready(function(){
 				<td class="text-center">${job.title}</td>
 				<td class="text-center">${job.company}</td>
 				<td class="text-center">${job.hirecount}</td>
-				<td class="text-center"><fmt:formatDate value='${job.wdate}' pattern='yyyy-MM-dd'/></td>
+				<td class="text-center">${job.period}</td>
 			</tr>
 		</c:forEach>
 	</table>

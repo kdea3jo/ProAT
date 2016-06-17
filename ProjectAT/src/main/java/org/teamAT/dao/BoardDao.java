@@ -24,5 +24,6 @@ public interface BoardDao {
 	public List<CommentVo> commentList(@Param("num") int num,@Param("boardname") String boardname,@Param("page") int page);
 	
 	public void updateHit(@Param("hit")int hit,@Param("num") int num, @Param("boardname") String boardName);
+	public boolean commdelete(@Param("num")int num, @Param("boardname")String boardname);
 }
 

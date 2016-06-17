@@ -1,14 +1,19 @@
 package org.teamAT.service;
 
-import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.List;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.teamAT.dao.AndroidDao;
+import org.teamAT.dao.AttendanceDao;
+import org.teamAT.vo.AttendanceVo;
 import org.teamAT.vo.BepresentVo_Android;
+import org.teamAT.vo.JobinfoVo_Android;
 import org.teamAT.vo.MemberVo_Android;
 
 @Service
@@ -60,6 +65,69 @@ public class AndroidService{
 		res.put("checkTime", checkVo.getCheckTime());
 		
 		return res.toJSONString();
+	}
+	
+	public String androidGetBepresentList(String userid, String today){
+		JSONObject res = new JSONObject();		
+		
+		AndroidDao adao = sqlSessionTemplate.getMapper(AndroidDao.class);	
+		res.put("userin", adao.androidGetBepresentIn(userid, today));
+		res.put("userout", adao.androidGetBepresentOut(userid, today));
+		
+		AttendanceDao dao = sqlSessionTemplate.getMapper(AttendanceDao.class);		
+		List<AttendanceVo> list = dao.getAttendList(userid);
+		int attendDate=0;
+		int absenceDate=0;
+		int zo=0;
+		for(int i=0; i<list.size(); i++){
+			String statue = list.get(i).getStatue();
+			System.out.println(statue);
+			
+			if(statue.equals("출석") || statue.equals("공결")){
+				attendDate++;
+			}
+			
+			if(statue.equals("결석")){
+				absenceDate++;
+			}
+			
+			if(statue.equals("조퇴")||statue.equals("지각")){
+				attendDate++;
+				zo++;
+			}
+		}
+		zo=zo/3;
+		
+		
+		SimpleDateFormat jsonFormat = new SimpleDateFormat("yyyyMMdd");
+		
+		res.put("endDate", jsonFormat.format(dao.getSubjectInfo(userid).getEnddate()));
+		res.put("totalDays", dao.getSubjectInfo(userid).getTotalDate());
+		res.put("attendDays", attendDate-zo);
+		res.put("absenceDays", absenceDate+zo);	
+		
+		return res.toJSONString();
+	}
+	
+	public String androidGetJobList(){
+		AndroidDao dao = sqlSessionTemplate.getMapper(AndroidDao.class);
+		
+		List<JobinfoVo_Android> jList = dao.androidGetJobList();
+		
+		JSONArray jArray = new JSONArray();
+		for(int i=0; i<jList.size() ; i++){
+			JobinfoVo_Android jv = jList.get(i);
+			JSONObject jObj = new JSONObject();
+			jObj.put("company", jv.getCompany());
+			jObj.put("wdate", jv.getWdate());
+			jObj.put("hirecount", jv.getHirecount());
+			jObj.put("title", jv.getTitle());
+			jObj.put("contents", jv.getContents());
+			jObj.put("period", jv.getPeriod());
+			jArray.add(jObj);
+		}
+		
+		return jArray.toJSONString();
 	}
 	
 }

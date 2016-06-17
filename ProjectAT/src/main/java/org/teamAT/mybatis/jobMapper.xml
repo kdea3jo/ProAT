@@ -9,4 +9,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="getJobList" resultType="org.teamAT.vo.JobInfoVo">
 		select * from jobinfo
 	</select>
+	<select id="getJobInfo" resultType="org.teamAT.vo.JobInfoVo">
+		select * from jobinfo where num=#{num}
+	</select>	
 </mapper>

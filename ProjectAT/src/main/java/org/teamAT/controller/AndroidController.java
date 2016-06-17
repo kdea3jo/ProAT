@@ -49,5 +49,21 @@ public class AndroidController {
 		return "/android/android_result";
 	}
 	
+	@RequestMapping(value="totalBepresent", method = RequestMethod.GET)	
+	public String getBepresentList(HttpServletRequest request){
+	
+		String aid = request.getParameter("userid");
+		String today = request.getParameter("today");
+		
+		request.setAttribute("dataForAndroid", as.androidGetBepresentList(aid, today));
+		return "/android/android_result";
+	}
+	
+	@RequestMapping(value="jobList", method = RequestMethod.GET)	
+	public String getJobList(HttpServletRequest request){
+		request.setAttribute("dataForAndroid", as.androidGetJobList());
+		return "/android/android_result";
+	}
+	
 
 }

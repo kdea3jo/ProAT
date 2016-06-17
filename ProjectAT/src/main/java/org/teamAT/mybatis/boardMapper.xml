@@ -51,15 +51,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </insert>
     
     <select id="commentList" resultType="org.teamAT.vo.CommentVo">
-	    SELECT * FROM(    
+      SELECT * FROM(    
 		    SELECT TRUNC((RN-1)/5+1) AS page, CEIL(COUNT(*) OVER()/5) AS TotalPage,t2.* FROM(
 		      SELECT ROWNUM RN, t1.* FROM(
-		        SELECT * FROM ${boardname}COMMENT 
+		        SELECT n.num, m.username, n.CONTENTS, n.BOARDNUM, n.WDATE, n.userid
+           		 FROM ${boardname}COMMENT n join member m
+            	on n.userid=m.userid
 		        WHERE BOARDNUM=#{num}
 		        ORDER BY NUM
 		      )t1
 		    )t2
 		)WHERE page=#{page}
     </select>
+    
+    <delete id="commdelete">
+    	DELETE FROM ${boardname}comment WHERE num=#{num}
+    </delete>
     
  </mapper>

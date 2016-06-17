@@ -61,7 +61,7 @@ public class AdminController {
 	
 	@ResponseBody
 	@RequestMapping(value="selectDayforadmin", method=RequestMethod.POST)
-	public AttendanceVo getSelectDayInfo(Date date,@RequestParam String id){
+	public AttendanceVo getSelectDayInfo(String date,@RequestParam String id){
 		return atts.getSelectDayInfo(date,id);
 	}
 	

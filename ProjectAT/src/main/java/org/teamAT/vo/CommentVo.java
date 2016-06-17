@@ -5,10 +5,12 @@ import java.sql.Date;
 public class CommentVo {
 	private int num;
 	private String userid;
+	private String username;
 	private String contents;
 	private int boardnum;
 	private Date wdate;
 	private int totalpage;
+	
 	public int getNum() {
 		return num;
 	}
@@ -45,7 +47,10 @@ public class CommentVo {
 	public void setTotalpage(int totalpage) {
 		this.totalpage = totalpage;
 	}
-	
-	
-	
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
 }

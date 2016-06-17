@@ -66,6 +66,9 @@
 				<button id="writeBtn" class="next btn btn-primary" type="button">글쓰기</button>
 			</sec:authorize>
 		</c:when>
+		<c:when test="${requestScope.boardname=='qna'}">
+				<button id="writeBtn" class="next btn btn-primary" type="button">글쓰기</button>
+		</c:when>
 	</c:choose>
 	</div>
 

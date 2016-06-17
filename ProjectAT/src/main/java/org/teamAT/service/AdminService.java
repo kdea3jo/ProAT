@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.teamAT.dao.AttendanceDao;
 import org.teamAT.dao.MemberDao;
 import org.teamAT.dao.StudentDao;
 import org.teamAT.vo.MemberVo;
@@ -32,6 +33,8 @@ public class AdminService {
 		int result=dao.setStudent(id);
 		if(result>=1){
 			result=dao.removeApplicant(id);
+			AttendanceDao atddao=sqlSessionTemplate.getMapper(AttendanceDao.class);
+			atddao.insert_bepresent(id);
 		}
 		return result >=1 ? true : false;
 	}

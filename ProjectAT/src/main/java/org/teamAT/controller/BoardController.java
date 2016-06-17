@@ -73,6 +73,13 @@ public class BoardController {
 		service.commentInsert(comment, boardname);
 		return "redirect:/board/"+getBoardName(request)+"/read?num="+comment.getBoardnum();
 	}
+	@ResponseBody
+	@RequestMapping(value="*/commdelete", method = RequestMethod.POST)
+	public boolean commdelete(int num, int boardNum, HttpServletRequest request){
+		String boardname = getBoardName(request);
+		return service.commdelete(num, boardname);
+	}
+	
 	@RequestMapping(value="*/present", method = RequestMethod.GET)
 	public String present(HttpServletRequest request){
 		return "/board/notice/present";

@@ -57,20 +57,23 @@
 				}
 
 		    },
-			events: [
-			<c:forEach var="items" items="${requestScope.attList}" varStatus="status">
-				{
-					id : '${items.adate}',
-					title: '${items.statue}',
-					start: '${items.adate}'
-					<c:choose>
-						<c:when test="${items.statue=='결석'}">,color : '#FB5175'</c:when>
-						<c:when test="${items.statue=='지각'||items.statue=='조퇴'||items.statue=='외출'}">,color : '#dddddd'</c:when>
-						<c:otherwise>,color : '#337AB7' </c:otherwise>
-					</c:choose>
-				},
-			</c:forEach>
-			]
+		    events: [
+		             <c:forEach var="items" items="${requestScope.attList}" varStatus="status">
+		                {
+		                   id : '${items.adate}',
+		                   start: '${items.adate}'
+		                   <c:choose>
+		                      <c:when test="${items.statue=='공결'}">, title:'${items.statue}★'</c:when>
+		                      <c:otherwise>,title: '${items.statue}' </c:otherwise>
+		                   </c:choose>
+		                   <c:choose>
+		                      <c:when test="${items.statue=='결석'}">,color : '#FB5175'</c:when>
+		                      <c:when test="${items.statue=='지각'||items.statue=='조퇴'||items.statue=='외출'}">,color : '#dddddd'</c:when>
+		                      <c:otherwise>,color : '#337AB7' </c:otherwise>
+		                   </c:choose>
+		                },
+		             </c:forEach>
+		             ]
         });
 		var totalDate = ${requestScope.subjectInfo.totalDate};
 		var attendDate = ${requestScope.attendDate};

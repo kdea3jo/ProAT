@@ -63,6 +63,7 @@ public class BoardService {
 		dao.updateHit(content.getHit()+1,num,boardName);
 		content.setHit(content.getHit()+1);
 		request.setAttribute("content", content);
+		request.setAttribute("isId", principal.getName());
 		if(content.getUserid().equals(principal.getName())){
 			request.setAttribute("isWriter", "yes");
 		}else{
@@ -97,7 +98,6 @@ public class BoardService {
 		pagination.setLinkBegin(linkBegin);
 		pagination.setLinkEnd(linkEnd);
 		request.setAttribute("commentList", list);
-		
 		request.setAttribute("commentPage", pagination);
 	}
 	
@@ -171,5 +171,11 @@ public class BoardService {
 		BoardDao dao=sqlSessionTemplate.getMapper(BoardDao.class);
 		return dao.commentInsert(comment, boardname);		
 	}
+
+	public boolean commdelete(int num, String boardname) {
+		BoardDao dao=sqlSessionTemplate.getMapper(BoardDao.class);
+		return dao.commdelete(num, boardname);
+	}
+	
 
 }

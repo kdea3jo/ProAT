@@ -12,8 +12,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select ${checkType} as "checkTime" from BEPRESENT where userid=#{userid} and TO_CHAR(ADATE,'YYYYMMDD')=#{today}
 	</select>
 	
+	<select id="androidGetBepresentIn" resultType="Integer">
+		select userin from BEPRESENT where userid=#{userid} and TO_CHAR(ADATE,'YYYYMMDD')=#{today}
+	</select>
+	
+	<select id="androidGetBepresentOut" resultType="Integer">
+		select userout from BEPRESENT where userid=#{userid} and TO_CHAR(ADATE,'YYYYMMDD')=#{today}
+	</select>	
+	
 	<update id="androidCheckTimeUpdate">
 		update BEPRESENT set ${checkType}=#{checkTime} where userid=#{userid} and TO_CHAR(ADATE,'YYYYMMDD')=#{today}
 	</update>
+	
+	<select id="androidGetJobList" resultType="org.teamAT.vo.JobinfoVo_Android">
+		select * from JOBINFO order by NUM asc
+	</select>
+	
 	
 </mapper>

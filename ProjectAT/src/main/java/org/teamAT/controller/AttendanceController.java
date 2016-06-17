@@ -30,7 +30,7 @@ public class AttendanceController {
 	
 	@ResponseBody
 	@RequestMapping(value="selectDay", method=RequestMethod.POST)
-	public AttendanceVo getSelectDayInfo(Date date, Principal principal){
+	public AttendanceVo getSelectDayInfo(String date, Principal principal){
 		return service.getSelectDayInfo(date,principal.getName());
 	}
 

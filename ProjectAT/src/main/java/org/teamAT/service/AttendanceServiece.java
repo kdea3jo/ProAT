@@ -33,12 +33,14 @@ public class AttendanceServiece {
 		int attendDate=0;
 		int absenceDate=0;
 		int zo=0;
-		for(int i=0; i<list.size(); i++){
-			if(list.get(i).getStatue().equals("출석")){
+		for (int i = 0; i < list.size(); i++) {
+			if (list.get(i).getStatue().equals("출석") || list.get(i).getStatue().equals("공결")) {
 				attendDate++;
-			}if(list.get(i).getStatue().equals("결석")){
+			}
+			if (list.get(i).getStatue().equals("결석")) {
 				absenceDate++;
-			}if(list.get(i).getStatue().equals("조퇴")||list.get(i).getStatue().equals("지각")){
+			}
+			if (list.get(i).getStatue().equals("조퇴") || list.get(i).getStatue().equals("지각")) {
 				zo++;
 			}
 		}
@@ -52,7 +54,7 @@ public class AttendanceServiece {
 		request.setAttribute("todayuserin", replace(list.get(0).getUserin()));
 		request.setAttribute("todayuserout", replace(list.get(0).getUserout()));
 	}
-	public AttendanceVo getSelectDayInfo(Date date, String userid) {
+	public AttendanceVo getSelectDayInfo(String date, String userid) {
 		AttendanceDao dao = sqlSessionTemplate.getMapper(AttendanceDao.class);
 		AttendanceVo attendanceVo= dao.getSelectDayInfo(date, userid);
 		attendanceVo.setUserin(replace(attendanceVo.getUserin()));

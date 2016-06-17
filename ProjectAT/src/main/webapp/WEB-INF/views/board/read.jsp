@@ -14,6 +14,31 @@ $(function() {
 	$("#update").on("click", function() {
 		location.href = "modify?num=${requestScope.content.num}";
 	});
+	$("#commdelete").on("click", function() {
+		bootbox.confirm("삭제하시겠습니까?", function(result) {
+		if (result) {
+			var data = $("#commBtnArea").find("input").val();
+			var boardnum = ${requestScope.content.num};
+			var url = "../${requestScope.boardname}/commdelete";
+			$.ajax({
+				type : "post",
+				url : url,
+				data : {"num":data,"boardNum":boardnum},
+				dataType : "json",
+				success : function(obj) {
+					if (obj) {
+						bootbox.alert("삭제되었습니다.", function() {
+							location.reload();
+						});
+					}else if(!obj){
+						bootbox.alert("다시시도하세요.", function() {});
+					}
+				}
+			});
+			}
+		});
+		
+	});
 	/* 삭제 버튼 */
 	$("#delete").on("click", function() {
 		if (bootbox.confirm("삭제하시겠습니까?", function() {})) {
@@ -27,7 +52,6 @@ $(function() {
 				success : function(obj) {
 					if (obj) {
 						bootbox.alert("삭제되었습니다.", function() {});
-						location.href = "list";
 					}else if(!obj){
 						bootbox.alert("다시시도하세요.", function() {});
 					}
@@ -78,8 +102,11 @@ $(function() {
 		<ul>
 			<c:forEach var="items" items="${requestScope.commentList}" varStatus="status">
 				<li class="commentList">
-					<div>${items.userid} &nbsp; <fmt:formatDate value='${items.wdate}' pattern='yyyy-MM-dd h:mm'/></div>
+					<div><strong>${items.username}</strong> &nbsp; <strong><fmt:formatDate value='${items.wdate}' pattern='yyyy-MM-dd h:mm'/></strong></div>
 					<div>${items.contents}</div>
+					<c:if test="${items.userid==requestScope.isId}">
+						<div style="text-align: right;" id="commBtnArea"><input name="num" value="${items.num}" class="sr-only"></input><button class="btn btn-primary" id="commdelete" type="button">삭제</button></div>
+					</c:if>
 				</li>
 			</c:forEach>
 	

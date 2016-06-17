@@ -8,4 +8,5 @@ public interface JobDao {
 
 	public int setJobInfo(JobInfoVo vo);
 	public List<JobInfoVo> getJobList();
+	public JobInfoVo getJobInfo(int num);
 }
